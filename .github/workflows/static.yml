@@ -1,0 +1,59 @@
+name: Deploy Hexo to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]  # 触发分支，根据你的仓库设置调整
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      # 1. 检出代码
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. 设置 Node.js 环境
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18  # 使用 Hexo 支持的 Node.js 版本
+
+      # 3. 安装 Hexo 和依赖
+      - name: Install Hexo and dependencies
+        run: |
+          npm install -g hexo-cli
+          npm install
+
+      # 4. 生成静态文件
+      - name: Generate static files
+        run: |
+          hexo clean
+          hexo generate
+
+      # 5. 设置 GitHub Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      # 6. 上传生成的静态文件
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public  # Hexo 生成的静态文件目录
+
+      # 7. 部署到 GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
