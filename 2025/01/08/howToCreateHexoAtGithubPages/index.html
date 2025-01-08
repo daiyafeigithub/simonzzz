@@ -4,15 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>SEEK</title>
+  <title>怎么在github pages部署自己的hexo项目 | SEEK</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="庸人罷了">
-<meta property="og:type" content="website">
-<meta property="og:title" content="SEEK">
-<meta property="og:url" content="https://daiyafeigithub.github.io/simonzzz/index.html">
+  <meta name="description" content="在 GitHub Pages 上部署 Hexo 项目是一个常见的需求，Hexo 是一个基于 Node.js 的静态博客生成器，而 GitHub Pages 是一个免费的静态网站托管服务。以下是详细的步骤，帮助你完成 Hexo 项目的部署。  1. 准备工作确保你已经完成以下准备工作：  安装 Node.js 和 npm。 安装 Git。 创建一个 GitHub 仓库（如果还没有）。   2. 安装">
+<meta property="og:type" content="article">
+<meta property="og:title" content="怎么在github pages部署自己的hexo项目">
+<meta property="og:url" content="https://daiyafeigithub.github.io/simonzzz/2025/01/08/howToCreateHexoAtGithubPages/index.html">
 <meta property="og:site_name" content="SEEK">
-<meta property="og:description" content="庸人罷了">
+<meta property="og:description" content="在 GitHub Pages 上部署 Hexo 项目是一个常见的需求，Hexo 是一个基于 Node.js 的静态博客生成器，而 GitHub Pages 是一个免费的静态网站托管服务。以下是详细的步骤，帮助你完成 Hexo 项目的部署。  1. 准备工作确保你已经完成以下准备工作：  安装 Node.js 和 npm。 安装 Git。 创建一个 GitHub 仓库（如果还没有）。   2. 安装">
 <meta property="og:locale">
+<meta property="article:published_time" content="2025-01-08T08:31:54.026Z">
+<meta property="article:modified_time" content="2025-01-08T09:29:21.500Z">
 <meta property="article:author" content="Simon">
 <meta name="twitter:card" content="summary">
   
@@ -73,9 +75,7 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-howToCreateHexoAtGithubPages" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-howToCreateHexoAtGithubPages" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/simonzzz/2025/01/08/howToCreateHexoAtGithubPages/" class="article-date">
   <time class="dt-published" datetime="2025-01-08T08:31:54.026Z" itemprop="datePublished">2025-01-08</time>
@@ -88,8 +88,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/simonzzz/2025/01/08/howToCreateHexoAtGithubPages/">怎么在github pages部署自己的hexo项目</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      怎么在github pages部署自己的hexo项目
     </h1>
   
 
@@ -192,82 +192,19 @@
     </footer>
   </div>
   
-</article>
-
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/simonzzz/2025/01/08/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2025-01-08T05:59:18.647Z" itemprop="datePublished">2025-01-08</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/simonzzz/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/simonzzz/2025/01/08/hello-world/">如何在vue+springboot项目中使用https</a>
-    </h1>
+    <a href="/simonzzz/2025/01/08/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">如何在vue+springboot项目中使用https</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>在 Vue + Spring Boot 项目中使用 HTTPS，需要分别在 Vue 前端和 Spring Boot 后端进行配置。以下是具体步骤：</p>
-<h3 id="1-生成-SSL-证书"><a href="#1-生成-SSL-证书" class="headerlink" title="1. 生成 SSL 证书"></a>1. 生成 SSL 证书</h3><p>首先，你需要一个 SSL 证书。可以使用自签名证书进行测试，或从受信任的证书颁发机构（CA）获取正式证书。</p>
-<h4 id="自签名证书生成"><a href="#自签名证书生成" class="headerlink" title="自签名证书生成"></a>自签名证书生成</h4><p>使用 OpenSSL 生成自签名证书：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes</span><br></pre></td></tr></table></figure>
-
-<p>这将生成 <code>key.pem</code>（私钥）和 <code>cert.pem</code>（证书）文件。</p>
-<h3 id="2-配置-Spring-Boot-使用-HTTPS"><a href="#2-配置-Spring-Boot-使用-HTTPS" class="headerlink" title="2. 配置 Spring Boot 使用 HTTPS"></a>2. 配置 Spring Boot 使用 HTTPS</h3><h4 id="将证书放入-Spring-Boot-项目"><a href="#将证书放入-Spring-Boot-项目" class="headerlink" title="将证书放入 Spring Boot 项目"></a>将证书放入 Spring Boot 项目</h4><p>将生成的 <code>key.pem</code> 和 <code>cert.pem</code> 文件放入 <code>src/main/resources</code> 目录。</p>
-<h4 id="修改-application-properties"><a href="#修改-application-properties" class="headerlink" title="修改 application.properties"></a>修改 <code>application.properties</code></h4><p>在 <code>application.properties</code> 中添加以下配置：</p>
-<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server.port</span>=<span class="string">8443</span></span><br><span class="line"><span class="attr">server.ssl.key-store</span>=<span class="string">classpath:keystore.p12</span></span><br><span class="line"><span class="attr">server.ssl.key-store-password</span>=<span class="string">your_password</span></span><br><span class="line"><span class="attr">server.ssl.key-password</span>=<span class="string">your_password</span></span><br></pre></td></tr></table></figure>
-
-<p>将 <code>key.pem</code> 和 <code>cert.pem</code> 转换为 PKCS12 格式：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl pkcs12 -<span class="built_in">export</span> -<span class="keyword">in</span> cert.pem -inkey key.pem -out keystore.p12 -name tomcat -CAfile cert.pem -caname root</span><br></pre></td></tr></table></figure>
-
-<p>将生成的 <code>keystore.p12</code> 放入 <code>src/main/resources</code> 目录。</p>
-<h3 id="3-配置-Vue-使用-HTTPS"><a href="#3-配置-Vue-使用-HTTPS" class="headerlink" title="3. 配置 Vue 使用 HTTPS"></a>3. 配置 Vue 使用 HTTPS</h3><h4 id="修改-Vue-开发服务器配置"><a href="#修改-Vue-开发服务器配置" class="headerlink" title="修改 Vue 开发服务器配置"></a>修改 Vue 开发服务器配置</h4><p>在 <code>vue.config.js</code> 中配置开发服务器使用 HTTPS：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="attr">devServer</span>: &#123;</span><br><span class="line">    <span class="attr">port</span>: <span class="number">8080</span>,</span><br><span class="line">    <span class="attr">https</span>: &#123;</span><br><span class="line">      <span class="attr">key</span>: fs.<span class="title function_">readFileSync</span>(path.<span class="title function_">resolve</span>(__dirname, <span class="string">&#x27;key.pem&#x27;</span>)),</span><br><span class="line">      <span class="attr">cert</span>: fs.<span class="title function_">readFileSync</span>(path.<span class="title function_">resolve</span>(__dirname, <span class="string">&#x27;cert.pem&#x27;</span>)),</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">proxy</span>: &#123;</span><br><span class="line">      <span class="string">&#x27;/api&#x27;</span>: &#123;</span><br><span class="line">        <span class="attr">target</span>: <span class="string">&#x27;https://localhost:8443&#x27;</span>,</span><br><span class="line">        <span class="attr">secure</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">changeOrigin</span>: <span class="literal">true</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>将 <code>key.pem</code> 和 <code>cert.pem</code> 放入 Vue 项目根目录。</p>
-<h3 id="4-部署配置"><a href="#4-部署配置" class="headerlink" title="4. 部署配置"></a>4. 部署配置</h3><h4 id="前端部署"><a href="#前端部署" class="headerlink" title="前端部署"></a>前端部署</h4><p>将 Vue 项目打包并部署到支持 HTTPS 的服务器（如 Nginx 或 Apache）。</p>
-<h4 id="后端部署"><a href="#后端部署" class="headerlink" title="后端部署"></a>后端部署</h4><p>将 Spring Boot 项目打包为 JAR 或 WAR 文件，并部署到支持 HTTPS 的服务器。</p>
-<h3 id="5-测试"><a href="#5-测试" class="headerlink" title="5. 测试"></a>5. 测试</h3><p>启动 Spring Boot 和 Vue 项目，分别通过 <code>https://localhost:8443</code> 和 <code>https://localhost:8080</code> 访问，确保 HTTPS 正常工作。</p>
-<h3 id="6-其他注意事项"><a href="#6-其他注意事项" class="headerlink" title="6. 其他注意事项"></a>6. 其他注意事项</h3><ul>
-<li><strong>证书有效期</strong>：自签名证书仅用于测试，生产环境应使用受信任的 CA 证书。</li>
-<li><strong>混合内容</strong>：确保前端资源（如 JS、CSS）通过 HTTPS 加载，避免混合内容问题。</li>
-<li><strong>CORS</strong>：如果前后端分离部署，配置正确的 CORS 策略。</li>
-</ul>
-<p>通过这些步骤，你的 Vue + Spring Boot 项目将能够使用 HTTPS 进行安全通信。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://daiyafeigithub.github.io/simonzzz/2025/01/08/hello-world/" data-id="cm5np74vy000030nhheh99y8z" data-title="如何在vue+springboot项目中使用https" class="article-share-link"><span class="fa fa-share">Teilen</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/simonzzz/tags/deepseek/" rel="tag">deepseek</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/simonzzz/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
-
-
-
-  
 
 
 </section>
