@@ -44,16 +44,16 @@ jobs:
           hexo clean
           hexo g
           hexo d
-#      - name: Deploy hexo blog
-#        env:
-#          # Github 仓库
-#          GITHUB_REPO: github.com/daiyafeigithub/simonzzz.git
-#
-#        # 将编译后的博客文件推送到指定仓库
-#        run: |
-#          cd ./public && git init && git add .
-#          git config user.name "daiyafeigithub"
-#          git config user.email "simon.dyf@qq.com"
-#          git add .
-#          git commit -m "GitHub Actions Auto Builder at $(date +'%Y-%m-%d %H:%M:%S')"
-#          git push --force --quiet "https://${{ secrets.DEPLOY_HEXO }}@$GITHUB_REPO" master:public
+      - name: Deploy hexo blog
+        env:
+          # Github 仓库
+          GITHUB_REPO: github.com/daiyafeigithub/simonzzz.git
+
+        # 将编译后的博客文件推送到指定仓库
+        run: |
+          cd ./public && git init && git add .
+          git config user.name "daiyafeigithub"
+          git config user.email "simon.dyf@qq.com"
+          git add .
+          git commit -m "GitHub Actions Auto Builder at $(date +'%Y-%m-%d %H:%M:%S')"
+          git push --force --quiet "https://${{ secrets.DEPLOY_HEXO }}@$GITHUB_REPO" master:public
