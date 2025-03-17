@@ -24,12 +24,13 @@ jobs:
         with:
           node-version: '18.x'
 
-      - name: Cache node modules
-        # 设置包缓存目录，避免每次下载
-        uses: actions/cache@v1
+      - name: Cache dependencies
+        uses: actions/cache@v3
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
 
       - name: Install hexo dependencies
         # 下载 hexo-cli 脚手架及相关安装包
