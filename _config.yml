@@ -4,7 +4,7 @@
 
 # Site
 title: SEEK
-subtitle: 'search nothing,seek everything'
+subtitle: 'seek By AI'
 description: '庸人罷了'
 keywords:
 author: Simon
@@ -99,4 +99,9 @@ theme: butterfly
 deploy:
   type: 'git'
   repo: 'https://github.com/daiyafeigithub/simonzzz.git'
-  branch: 'public'
+  branch: 'main'
+  
+search:
+  path: search.xml
+  field: post
+  content: true
