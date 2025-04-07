@@ -100,3 +100,8 @@ deploy:
   type: 'git'
   repo: 'https://github.com/daiyafeigithub/simonzzz.git'
   branch: 'main'
+  
+search:
+  path: search.xml
+  field: post
+  content: true
