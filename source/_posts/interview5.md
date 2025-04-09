@@ -6,7 +6,7 @@ tags:
 categories:
   - 面试
 ---
-### Spring Boot自动配置的核心过程：  
+## 一、Spring Boot自动配置的核心过程：  
 
 1. **启动触发**：通过`@EnableAutoConfiguration`启用自动配置。  
 2. **加载配置类**：从`META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`读取候选配置类。  
@@ -15,17 +15,17 @@ categories:
 
 整个过程遵循"约定优于配置"，减少手动设置，提升开发效率。
 
-### springboot打包成war的方式
+## 二、springboot打包成war的方式
 
 将Spring Boot项目打包为WAR只需两步：
 
 1) 修改`pom.xml`将打包方式改为`war`并添加`provided`范围的Tomcat依赖；
 2) 让主类继承`SpringBootServletInitializer`并重写`configure`方法**。最后用`mvn package`命令生成WAR文件即可部署到外部容器。
 
-### springboot的核心注解
+## 三、springboot的核心注解
 1. `@SpringBootApplication`：组合了`@Configuration`、`@EnableAutoConfiguration`和`@ComponentScan`三个注解，用于启动一个Spring Boot应用。
 
-### springboot的全局异常处理
+## 四、springboot的全局异常处理
 Spring Boot 全局异常处理的核心实现方式：  
 
 1. **`@ControllerAdvice` + `@ExceptionHandler`**  
@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
 特点：**简单注解驱动**，**统一异常拦截**，**支持 REST 和页面**。
 
 
-在 Spring Boot 中获取配置文件（`application.yml` 或 `application.properties`）中的配置有以下几种常用方式：
+## 五、在 Spring Boot 中获取配置文件（`application.yml` 或 `application.properties`）中的配置有以下几种常用方式：
 
 ---
 
@@ -137,7 +137,7 @@ public class CustomConfig {
 - 分组配置 → `@ConfigurationProperties`  
 - 动态获取 → `Environment`
 
-## Spring Boot 加载 **所有类型配置文件** 的顺序（**优先级从高到低**）：  
+## 六、Spring Boot 加载 **所有类型配置文件** 的顺序（**优先级从高到低**）：  
 
 ### **1. 外部配置（优先级最高）**
 - **命令行参数**（`--key=value`，如 `java -jar app.jar --server.port=8081`）  
@@ -175,7 +175,7 @@ public class CustomConfig {
 适用于：`properties`、`yml`、`yaml` 等所有 Spring Boot 支持的配置文件格式。
 
 
-### 在 Spring Boot（特别是结合 Spring Cloud 时），**`bootstrap` 配置文件**的加载逻辑如下：  
+## 七、在 Spring Boot（特别是结合 Spring Cloud 时），**`bootstrap` 配置文件**的加载逻辑如下：  
 
 1. **优先级最高**：比 `application` 文件更早加载，用于**系统级配置**（如加密信息、Consul/Nacos 配置中心连接参数）。  
 2. **加载顺序**：  
