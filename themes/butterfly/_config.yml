@@ -10,20 +10,18 @@
 # --------------------------------------
 
 nav:
-  # Navigation bar logo image
-  logo: 
-  display_title: true
-  # Whether to fix navigation bar
-  fixed: false
+    # Navigation bar logo image
+    logo: /img/avatar.jpg
+    display_title: true
+    # Whether to fix navigation bar
+    fixed: true
 
 menu:
-  # Home: / || fas fa-home
-  # List||fas fa-list:
-  #   Music: /music/ || fas fa-music
-  #   Movie: /movies/ || fas fa-video
-
-# --------------------------------------
-# Code Blocks Settings
+  首頁: / 
+  時間軸: /archives/ 
+  標籤: /tags/ 
+  分類: /categories/
+  關於: /about/
 # --------------------------------------
 
 code_blocks:
@@ -52,10 +50,10 @@ social:
 # Image Settings
 # --------------------------------------
 
-favicon: /img/favicon.png
+favicon: /img/avatar.jpg
 
 avatar:
-  img: /img/youmi.png
+  img: /img/avatar.jpg
   effect: false
 
 # Disable all banner images
@@ -141,9 +139,9 @@ post_meta:
 # The top_img settings of home page
 # default: top img - full screen, site info - middle
 # The position of site info, eg: 300px/300em/300rem/10%
-index_site_info_top:
+index_site_info_top: 50%
 # The height of top_img, eg: 300px/300em/300rem
-index_top_img_height:
+index_top_img_height: 
 
 # The subtitle on homepage
 subtitle:
@@ -172,7 +170,7 @@ subtitle:
 # 5: Info displayed on the cover
 # 6: Masonry layout - Cover on top, info on the bottom
 # 7: Masonry layout - Info displayed on the cover
-index_layout: 3
+index_layout: 4
 
 # Display the article introduction on homepage
 # 1: description
@@ -286,7 +284,7 @@ aside:
       text: Follow Me
       link: https://github.com/daiyafeigithub
   card_announcement:
-    enable: true
+    enable: false
     content: This is my Blog
   card_recent_post:
     enable: true
@@ -465,8 +463,8 @@ math:
 search:
   # Choose: algolia_search / local_search / docsearch
   # leave it empty if you don't need search
-  use:
-  placeholder:
+  use: local_search
+  placeholder: 这里可以搜索内容哦😊
 
   # Algolia Search
   algolia_search:

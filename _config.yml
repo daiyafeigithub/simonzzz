@@ -8,8 +8,10 @@ subtitle: 'seek By AI'
 description: '庸人罷了'
 keywords:
 author: Simon
-language: zh
+language: zh-CN
 timezone: 'GMT+8'
+
+
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
