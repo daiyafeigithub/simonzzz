@@ -18,10 +18,10 @@ nav:
 
 menu:
   首頁: / 
-  時間軸: /archives/ 
-  標籤: /tags/ 
-  分類: /categories/
-  關於: /about/
+  时间轴: /archives/ 
+  标签: /tags/ 
+  分类: /categories/
+  关于: /about/
 # --------------------------------------
 
 code_blocks:
@@ -40,7 +40,7 @@ code_blocks:
   fullpage: false
 
 # Social media links
-# Formal:
+# Formal: 
 #   icon: link || the description || color
 social:
   # fab fa-github: https://github.com/xxxxx || Github || '#24292e'
@@ -50,7 +50,7 @@ social:
 # Image Settings
 # --------------------------------------
 
-favicon: /img/avatar.jpg
+favicon: /img/seek.png
 
 avatar:
   img: /img/avatar.jpg
@@ -355,7 +355,7 @@ rightside_bottom:
 
 # Conversion between Traditional and Simplified Chinese
 translate:
-  enable: false
+  enable: true
   # The text of a button
   default: 繁
   # the language of website (1 - Traditional Chinese/ 2 - Simplified Chinese）
