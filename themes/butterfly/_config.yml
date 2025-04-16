@@ -43,8 +43,8 @@ code_blocks:
 # Formal: 
 #   icon: link || the description || color
 social:
-  # fab fa-github: https://github.com/xxxxx || Github || '#24292e'
-  # fas fa-envelope: mailto:xxxxxx@gmail.com || Email || '#4a7dbe'
+   fab fa-github: https://github.com/daiyafeigithub/simonzzz || Github || '#24292e'
+   fas fa-envelope: simon.dyf@qq.com|| Email || '#4a7dbe'
 
 # --------------------------------------
 # Image Settings
