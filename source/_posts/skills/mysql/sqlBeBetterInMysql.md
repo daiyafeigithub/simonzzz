@@ -7,6 +7,7 @@ categories:
   - 面试
   - mysql
   - 数据库
+cover: source\imgs\interview\ca697cf7-e34e-4fc8-a102-2858b33981a2.png
 ---
 在 MySQL 中，针对慢 SQL 的优化是一个常见的性能调优任务。慢 SQL 通常是由于查询效率低下、索引缺失、数据量过大或数据库设计不合理等原因引起的。以下是优化慢 SQL 的详细步骤和方法：
 

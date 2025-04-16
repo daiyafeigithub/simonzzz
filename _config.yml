@@ -4,9 +4,9 @@
 
 # Site
 title: SEEK
-subtitle: 'seek By AI'
-description: '庸人罷了'
-keywords:
+subtitle: '追寻'
+description: '佣人罢了,牛马罢了,快乐就完事了'
+keywords: life is long
 author: Simon
 language: zh-CN
 timezone: 'GMT+8'
@@ -16,7 +16,7 @@ timezone: 'GMT+8'
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 url: https://daiyafeigithub.github.io/simonzzz/
-root: /simonzzz/
+root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -65,7 +65,52 @@ index_generator:
 # Category & Tag
 default_category: uncategorized
 category_map:
+  AI: 人工智能
+  Programming: 编程
+  Life: 生活随笔
+  Technology: 技术分享
+  Study: 学习笔记
+  Tools: 工具推荐
+  Design: 设计相关
+  Other: 其他分类
+
 tag_map:
+  Python: Python
+  JavaScript: JavaScript
+  Web: 前端开发
+  Backend: 后端开发
+  Database: 数据库
+  Linux: Linux
+  Windows: Windows
+  Mac: Mac
+  Mobile: 移动开发
+  AI: 人工智能
+  MachineLearning: 机器学习
+  DeepLearning: 深度学习
+  DataScience: 数据科学
+  Cloud: 云计算
+  DevOps: DevOps
+  Security: 安全
+  Network: 网络
+  Tools: 工具
+  Tips: 技巧
+  Tutorial: 教程
+  Review: 评测
+  News: 新闻
+  Life: 生活
+  Reading: 阅读
+  Music: 音乐
+  Movie: 电影
+  Game: 游戏
+  Travel: 旅行
+  Food: 美食
+  Health: 健康
+  Work: 工作
+  Study: 学习
+  Career: 职业
+  Finance: 理财
+  Investment: 投资
+  Other: 其他
 
 # Metadata elements
 ## https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta

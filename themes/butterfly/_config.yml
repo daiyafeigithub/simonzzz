@@ -29,7 +29,7 @@ code_blocks:
   theme: darker
   macStyle: false
   # Code block height limit (unit: px)
-  height_limit: false
+  height_limit: 800
   word_wrap: false
 
   # Toolbar
@@ -63,7 +63,7 @@ disable_top_img: false
 default_top_img: /img/header.jpg
 
 # The banner image of index page
-index_img: img/header.jpg
+index_img: /img/header.jpg
 
 # The banner image of archive page
 archive_img:
@@ -145,22 +145,23 @@ index_top_img_height:
 
 # The subtitle on homepage
 subtitle:
-  enable: false
+  enable: true
   # Typewriter Effect
   effect: true
   # Customize typed.js
-  # https://github.com/mattboldt/typed.js/#customization
   typed_option:
-  # Source - Call the third-party service API (Chinese only)
-  # It will show the source first, then show the content of sub
-  # Choose: false/1/2/3
-  # false - disable the function
-  # 1 - hitokoto.cn
-  # 2 - yijuzhan.com
-  # 3 - jinrishici.com
+    loop: true
+    showCursor: true
+    startDelay: 300
+    backDelay: 1000
+    typeSpeed: 150
+    backSpeed: 100
+  # Source
   source: false
-  # If you close the typewriter effect, the subtitle will only show the first line of sub
+  # Multiple lines of text
   sub:
+    - 人生如逆旅，我亦是行人
+    - 愿有岁月可回首，且以深情共白头
 
 # Article layout on the homepage
 # 1: Cover on the left, info on the right
@@ -204,15 +205,15 @@ post_copyright:
 
 # Sponsor/reward
 reward:
-  enable: false
+  enable: true
   text:
   QR_code:
-    # - img: /img/wechat.jpg
+     - img: /img/wechat.jpg
     #   link:
-    #   text: wechat
-    # - img: /img/alipay.jpg
+       text: 微信打赏
+     - img: /img/alipay.jpg
     #   link:
-    #   text: alipay
+       text: 支付宝打赏
 
 # Post edit
 # Easily browse and edit blog source code online.
