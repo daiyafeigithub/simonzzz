@@ -6,8 +6,7 @@ tags:
   - 多线程
   - 线程池
 categories:
-  - 面试
-  - JAVA
+  - 技术
 ---
 ---
 

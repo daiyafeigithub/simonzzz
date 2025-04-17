@@ -4,7 +4,7 @@ date: 2025年4月13日15:32:21
 tags:
   - mysql
 categories:
-  - mysql
+  - 技术
 ---
 
 `EXPLAIN` 是 MySQL 中用于分析 SQL 查询执行计划的核心工具。它可以帮助开发者理解 MySQL 如何执行查询（如表连接顺序、索引使用情况、扫描行数等），从而优化查询性能。以下是 `EXPLAIN` 的详细解析和使用示例。

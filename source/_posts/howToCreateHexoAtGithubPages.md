@@ -2,6 +2,7 @@
 title: 怎么在github pages部署自己的hexo项目
 date: 2025年1月8日17:29:19
 tags:
+ - 技术
 ---
 
 在 GitHub Pages 上部署 Hexo 项目是一个常见的需求，Hexo 是一个基于 Node.js 的静态博客生成器，而 GitHub Pages 是一个免费的静态网站托管服务。以下是详细的步骤，帮助你完成 Hexo 项目的部署。

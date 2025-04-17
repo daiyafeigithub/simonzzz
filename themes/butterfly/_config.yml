@@ -17,11 +17,15 @@ nav:
     fixed: true
 
 menu:
-  首頁: / 
-  时间轴: /archives/ 
-  标签: /tags/ 
-  分类: /categories/
-  关于: /about/
+  首页: / || fas fa-home
+  时间线: /archives/ || fas fa-archive
+  标签: /tags/ || fas fa-tags
+  经历||fas fa-user-graduate:
+    个人简介: /about/ || fas fa-address-card
+    工作经历: /experience/work/ || fas fa-briefcase
+    项目经历: /experience/projects/ || fas fa-project-diagram
+    学习经历: /experience/study/ || fas fa-graduation-cap
+
 # --------------------------------------
 
 code_blocks:
@@ -160,8 +164,8 @@ subtitle:
   source: false
   # Multiple lines of text
   sub:
-    - 人生如逆旅，我亦是行人
-    - 愿有岁月可回首，且以深情共白头
+    - 明天的事，谁知道呢，过好今天就行
+    - 快乐的事，谁不想呢，且随他去
 
 # Article layout on the homepage
 # 1: Cover on the left, info on the right

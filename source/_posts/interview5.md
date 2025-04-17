@@ -4,7 +4,7 @@ date: 2025年4月7日15:20:48
 tags:
   - 面试
 categories:
-  - 面试
+  - 技术
 ---
 ## 一、Spring Boot自动配置的核心过程：  
 

@@ -3,18 +3,26 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: SEEK
+title: 风
 subtitle: '追寻'
-description: '佣人罢了,牛马罢了,快乐就完事了'
-keywords: life is long
+description: '用一种很新的方式去思考世界'
+keywords: 风,博客,技术,生活
 author: Simon
 language: zh-CN
-timezone: 
+timezone: Asia/Shanghai
 
+# Admin
+admin:
+  username: admin
+  password_hash: $2b$10$IhJZgcGgD5LLFxXqLolt.eY7Ek7tdrXA5QRhXrN8g9D88a4rd3qdS
+  secret: hexo_admin_secret_key_2024_keep_it_safe
+  deployCommand: 'hexo deploy'
+  adminRoute: 'admin'
+  port: 4001
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://daiyafeigithub.github.io/simonzzz/
+url: https://daiyafeigithub.github.io/simonzzz/  
 root: /simonzzz/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -42,14 +50,13 @@ external_link:
   exclude: ''
 filename_case: 0
 render_drafts: false
-post_asset_folder: false
+post_asset_folder: true
 relative_link: false
 future: true
-syntax_highlighter: highlight.js
-
-prismjs:
-  preprocess: true
+highlight:
+  enable: true
   line_number: true
+  auto_detect: true
   tab_replace: ''
 
 # Home page setting
@@ -64,52 +71,8 @@ index_generator:
 # Category & Tag
 default_category: uncategorized
 category_map:
-  AI: 人工智能
-  Programming: 编程
-  Life: 生活随笔
-  Technology: 技术分享
-  Study: 学习笔记
-  Tools: 工具推荐
-  Design: 设计相关
-  Other: 其他分类
-
 tag_map:
-  Python: Python
-  JavaScript: JavaScript
-  Web: 前端开发
-  Backend: 后端开发
-  Database: 数据库
-  Linux: Linux
-  Windows: Windows
-  Mac: Mac
-  Mobile: 移动开发
-  AI: 人工智能
-  MachineLearning: 机器学习
-  DeepLearning: 深度学习
-  DataScience: 数据科学
-  Cloud: 云计算
-  DevOps: DevOps
-  Security: 安全
-  Network: 网络
-  Tools: 工具
-  Tips: 技巧
-  Tutorial: 教程
-  Review: 评测
-  News: 新闻
-  Life: 生活
-  Reading: 阅读
-  Music: 音乐
-  Movie: 电影
-  Game: 游戏
-  Travel: 旅行
-  Food: 美食
-  Health: 健康
-  Work: 工作
-  Study: 学习
-  Career: 职业
-  Finance: 理财
-  Investment: 投资
-  Other: 其他
+
 
 # Metadata elements
 ## https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta

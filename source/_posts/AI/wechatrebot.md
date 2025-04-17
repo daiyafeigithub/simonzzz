@@ -6,7 +6,7 @@ tags:
   - 微信机器人
   - Python
 categories:
-  - AI
+  - 技术
 ---
 
 # 微信机器人搭建指南

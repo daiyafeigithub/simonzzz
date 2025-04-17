@@ -1,7 +1,8 @@
 ---
 title: RabbitMQ 
 tags: [RabbitMQ]
-categories: [RabbitMQ]
+categories: 
+ - 技术
 ---
 
 ## **一、RabbitMQ 核心概念与架构**
