@@ -18,12 +18,12 @@ admin:
   secret: hexo_admin_secret_key_2024_keep_it_safe
   deployCommand: 'hexo deploy'
   adminRoute: 'admin'
-  port: 4001
+  port: 4000
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://daiyafeigithub.github.io/simonzzz/  
-root: /simonzzz/
+url: https://daiyafeigithub.github.io
+root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:

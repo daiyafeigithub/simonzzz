@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "dev": "vite",
     "build": "hexo generate",
+    "preview": "vite preview",
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server"
@@ -12,8 +14,11 @@
     "version": "7.3.0"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "axios": "^1.8.4",
     "bcrypt": "^5.1.1",
     "cheerio": "^1.0.0",
+    "element-plus": "^2.9.7",
     "hexo": "^7.3.0",
     "hexo-admin": "^2.3.0",
     "hexo-deployer-git": "^4.0.0",
@@ -31,6 +36,12 @@
     "hexo-server": "^3.0.0",
     "hexo-site": "file:",
     "hexo-theme-landscape": "^1.0.0",
-    "shelljs": "^0.8.5"
+    "hexo-util": "^3.1.0",
+    "marked": "^15.0.8",
+    "sass": "^1.86.3",
+    "shelljs": "^0.8.5",
+    "vite-plugin-markdown": "^2.2.0",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
   }
 }

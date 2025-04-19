@@ -48,7 +48,7 @@ code_blocks:
 #   icon: link || the description || color
 social:
    fab fa-github: https://github.com/daiyafeigithub/simonzzz || Github || '#24292e'
-   fas fa-envelope: simon.dyf@qq.com|| Email || '#4a7dbe'
+   fas fa-envelope: mailto:simon.dyf@qq.com || Email || '#4a7dbe'
 
 # --------------------------------------
 # Image Settings
@@ -164,8 +164,7 @@ subtitle:
   source: false
   # Multiple lines of text
   sub:
-    - 明天的事，谁知道呢，过好今天就行
-    - 快乐的事，谁不想呢，且随他去
+    - 认清生活的真相，并仍然热爱它
 
 # Article layout on the homepage
 # 1: Cover on the left, info on the right
@@ -550,7 +549,7 @@ disqusjs:
 # Livere
 # https://www.livere.com/
 livere:
-  uid: MTAyMC82MDM0OS8zNjgxOQ==
+  uid: livere-uid # 请替换为从Livere官网获取的真实UID
 
 # Gitalk
 # https://github.com/gitalk/gitalk
