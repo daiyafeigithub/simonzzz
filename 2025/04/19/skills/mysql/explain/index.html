@@ -1,0 +1,360 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>explain全解析 | 风</title><meta name="author" content="Simon"><meta name="copyright" content="Simon"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="EXPLAIN 是 MySQL 中用于分析 SQL 查询执行计划的核心工具。它可以帮助开发者理解 MySQL 如何执行查询（如表连接顺序、索引使用情况、扫描行数等），从而优化查询性能。以下是 EXPLAIN 的详细解析和使用示例。  一、基础语法1EXPLAIN [选项] SQL语句; 例如： 1EXPLAIN SELECT * FROM users WHERE id &#x3D; 1;   二、输出字段详">
+<meta property="og:type" content="article">
+<meta property="og:title" content="explain全解析">
+<meta property="og:url" content="https://daiyafeigithub.github.io/simonzzz/2025/04/19/skills/mysql/explain/index.html">
+<meta property="og:site_name" content="风">
+<meta property="og:description" content="EXPLAIN 是 MySQL 中用于分析 SQL 查询执行计划的核心工具。它可以帮助开发者理解 MySQL 如何执行查询（如表连接顺序、索引使用情况、扫描行数等），从而优化查询性能。以下是 EXPLAIN 的详细解析和使用示例。  一、基础语法1EXPLAIN [选项] SQL语句; 例如： 1EXPLAIN SELECT * FROM users WHERE id &#x3D; 1;   二、输出字段详">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://daiyafeigithub.github.io/simonzzz/img/avatar.jpg">
+<meta property="article:published_time" content="2025-04-19T04:14:28.180Z">
+<meta property="article:modified_time" content="2025-04-19T04:14:28.180Z">
+<meta property="article:author" content="Simon">
+<meta property="article:tag" content="mysql">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://daiyafeigithub.github.io/simonzzz/img/avatar.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "explain全解析",
+  "url": "https://daiyafeigithub.github.io/simonzzz/2025/04/19/skills/mysql/explain/",
+  "image": "https://daiyafeigithub.github.io/simonzzz/img/avatar.jpg",
+  "datePublished": "2025-04-19T04:14:28.180Z",
+  "dateModified": "2025-04-19T04:14:28.180Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Simon",
+      "url": "https://daiyafeigithub.github.io/simonzzz/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/simonzzz/img/seek.png"><link rel="canonical" href="https://daiyafeigithub.github.io/simonzzz/2025/04/19/skills/mysql/explain/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/simonzzz/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/simonzzz/',
+  algolia: undefined,
+  localSearch: {"path":"/simonzzz/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":800,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'explain全解析',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/simonzzz/img/avatar.jpg" onerror="this.onerror=null;this.src='/simonzzz/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/simonzzz/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/simonzzz/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/simonzzz/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/simonzzz/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-user-graduate"></i><span> 经历</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/simonzzz/about/"><i class="fa-fw fas fa-address-card"></i><span> 个人简介</span></a></li><li><a class="site-page child" href="/simonzzz/experience/work/"><i class="fa-fw fas fa-briefcase"></i><span> 工作经历</span></a></li><li><a class="site-page child" href="/simonzzz/experience/projects/"><i class="fa-fw fas fa-project-diagram"></i><span> 项目经历</span></a></li><li><a class="site-page child" href="/simonzzz/experience/study/"><i class="fa-fw fas fa-graduation-cap"></i><span> 学习经历</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(/simonzzz/img/header.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/simonzzz/"><img class="site-icon" src="/simonzzz/img/avatar.jpg" alt="Logo"><span class="site-name">风</span></a><a class="nav-page-title" href="/simonzzz/"><span class="site-name">explain全解析</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/simonzzz/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-user-graduate"></i><span> 经历</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/simonzzz/about/"><i class="fa-fw fas fa-address-card"></i><span> 个人简介</span></a></li><li><a class="site-page child" href="/simonzzz/experience/work/"><i class="fa-fw fas fa-briefcase"></i><span> 工作经历</span></a></li><li><a class="site-page child" href="/simonzzz/experience/projects/"><i class="fa-fw fas fa-project-diagram"></i><span> 项目经历</span></a></li><li><a class="site-page child" href="/simonzzz/experience/study/"><i class="fa-fw fas fa-graduation-cap"></i><span> 学习经历</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">explain全解析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-04-19T04:14:28.180Z" title="发表于 2025-04-19 12:14:28">2025-04-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-19T04:14:28.180Z" title="更新于 2025-04-19 12:14:28">2025-04-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/simonzzz/categories/%E6%8A%80%E6%9C%AF/">技术</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p><code>EXPLAIN</code> 是 MySQL 中用于分析 SQL 查询执行计划的核心工具。它可以帮助开发者理解 MySQL 如何执行查询（如表连接顺序、索引使用情况、扫描行数等），从而优化查询性能。以下是 <code>EXPLAIN</code> 的详细解析和使用示例。</p>
+<hr>
+<h3 id="一、基础语法"><a href="#一、基础语法" class="headerlink" title="一、基础语法"></a><strong>一、基础语法</strong></h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN [选项] <span class="keyword">SQL</span>语句;</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN <span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="二、输出字段详解"><a href="#二、输出字段详解" class="headerlink" title="二、输出字段详解"></a><strong>二、输出字段详解</strong></h3><p><code>EXPLAIN</code> 的输出结果包含以下关键字段，每个字段反映了查询执行计划的细节：</p>
+<h4 id="1-id"><a href="#1-id" class="headerlink" title="1. id"></a><strong>1. id</strong></h4><ul>
+<li><strong>含义</strong>：查询的唯一标识符。</li>
+<li><strong>规则</strong>：<ul>
+<li>简单查询（单表）的 <code>id</code> 相同。</li>
+<li>复杂查询（如子查询、联合查询）中，每个子查询会生成不同的 <code>id</code>。</li>
+<li><code>id</code> 值越大，优先级越高，越先执行。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-select-type"><a href="#2-select-type" class="headerlink" title="2. select_type"></a><strong>2. select_type</strong></h4><ul>
+<li><strong>含义</strong>：查询的类型。</li>
+<li><strong>常见值</strong>：<ul>
+<li><code>SIMPLE</code>：简单查询（不包含子查询或 UNION）。</li>
+<li><code>PRIMARY</code>：最外层的查询（包含子查询或 UNION）。</li>
+<li><code>SUBQUERY</code>：子查询中的第一个 SELECT。</li>
+<li><code>DERIVED</code>：派生表（如 FROM 子句中的子查询）。</li>
+<li><code>UNION</code>：UNION 中的第二个或后续 SELECT。</li>
+<li><code>UNION RESULT</code>：UNION 的结果。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-table"><a href="#3-table" class="headerlink" title="3. table"></a><strong>3. table</strong></h4><ul>
+<li><strong>含义</strong>：当前操作的表名。</li>
+<li><strong>示例</strong>：<code>&lt;derived2&gt;</code> 表示一个派生表（临时表）。</li>
+</ul>
+<h4 id="4-partitions"><a href="#4-partitions" class="headerlink" title="4. partitions"></a><strong>4. partitions</strong></h4><ul>
+<li><strong>含义</strong>：涉及的分区（如果表是分区表）。</li>
+</ul>
+<h4 id="5-type"><a href="#5-type" class="headerlink" title="5. type"></a><strong>5. type</strong></h4><ul>
+<li><strong>含义</strong>：访问类型（从最优到最差）：<ul>
+<li><code>system</code>：表只有一行（系统表）。</li>
+<li><code>const</code>：通过主键或唯一索引匹配一行。</li>
+<li><code>eq_ref</code>：唯一索引扫描（多表连接时）。</li>
+<li><code>ref</code>：非唯一索引扫描。</li>
+<li><code>range</code>：索引范围扫描。</li>
+<li><code>index</code>：全索引扫描（覆盖索引）。</li>
+<li><code>ALL</code>：全表扫描（需优化）。</li>
+</ul>
+</li>
+<li><strong>优化目标</strong>：尽量避免 <code>ALL</code>，追求 <code>const</code>、<code>eq_ref</code>、<code>ref</code>。</li>
+</ul>
+<h4 id="6-possible-keys"><a href="#6-possible-keys" class="headerlink" title="6. possible_keys"></a><strong>6. possible_keys</strong></h4><ul>
+<li><strong>含义</strong>：可能应用的索引列表。</li>
+</ul>
+<h4 id="7-key"><a href="#7-key" class="headerlink" title="7. key"></a><strong>7. key</strong></h4><ul>
+<li><strong>含义</strong>：实际使用的索引。</li>
+</ul>
+<h4 id="8-key-len"><a href="#8-key-len" class="headerlink" title="8. key_len"></a><strong>8. key_len</strong></h4><ul>
+<li><strong>含义</strong>：索引使用的字节数。</li>
+<li><strong>作用</strong>：判断联合索引是否被完全使用。</li>
+<li><strong>示例</strong>：若索引是 <code>(a, b)</code>，<code>key_len</code> 为 <code>a</code> 的长度，说明只使用了部分索引。</li>
+</ul>
+<h4 id="9-ref"><a href="#9-ref" class="headerlink" title="9. ref"></a><strong>9. ref</strong></h4><ul>
+<li><strong>含义</strong>：索引的哪一列或常量被用于匹配。</li>
+<li><strong>示例</strong>：<code>const</code>（常量）、<code>func</code>（函数）、<code>某个字段</code>。</li>
+</ul>
+<h4 id="10-rows"><a href="#10-rows" class="headerlink" title="10. rows"></a><strong>10. rows</strong></h4><ul>
+<li><strong>含义</strong>：预估需要扫描的行数。</li>
+<li><strong>优化目标</strong>：越小越好。</li>
+</ul>
+<h4 id="11-filtered"><a href="#11-filtered" class="headerlink" title="11. filtered"></a><strong>11. filtered</strong></h4><ul>
+<li><strong>含义</strong>：通过条件过滤的行百分比（与 <code>rows</code> 结合估算实际行数）。</li>
+</ul>
+<h4 id="12-Extra"><a href="#12-Extra" class="headerlink" title="12. Extra"></a><strong>12. Extra</strong></h4><ul>
+<li><strong>含义</strong>：额外信息，关键优化提示。</li>
+<li><strong>常见值</strong>：<ul>
+<li><code>Using where</code>：使用 WHERE 条件过滤。</li>
+<li><code>Using index</code>：使用覆盖索引（无需回表）。</li>
+<li><code>Using temporary</code>：使用临时表（需优化）。</li>
+<li><code>Using filesort</code>：使用文件排序（需优化）。</li>
+<li><code>Select tables optimized away</code>：查询被优化器直接返回结果（如聚合函数）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="三、示例分析"><a href="#三、示例分析" class="headerlink" title="三、示例分析"></a><strong>三、示例分析</strong></h3><h4 id="示例-1：全表扫描"><a href="#示例-1：全表扫描" class="headerlink" title="示例 1：全表扫描"></a><strong>示例 1：全表扫描</strong></h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN <span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> employees;</span><br></pre></td></tr></table></figure>
+<p><strong>输出</strong>：</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+-------+</span><br><span class="line">| id | select_type | table     | partitions | <span class="class"><span class="keyword">type</span> | possible_keys | key  | key_len | ref  | rows | filtered | <span class="type">Extra</span> |</span></span><br><span class="line">+----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+-------+</span><br><span class="line">| <span class="number">1</span>  | <span class="type">SIMPLE</span>      | employees | <span class="type">NULL</span>       | <span class="type">ALL</span>  | <span class="type">NULL</span>          | <span class="type">NULL</span> | <span class="type">NULL</span>    | <span class="type">NULL</span> | <span class="number">3000</span> | <span class="number">100.00</span>   | <span class="type">NULL</span>  |</span><br><span class="line">+----+-------------+-----------+------------+------+---------------+------+---------+------+------+----------+-------+</span><br></pre></td></tr></table></figure>
+<p><strong>分析</strong>：</p>
+<ul>
+<li><code>type</code> 为 <code>ALL</code>（全表扫描），需添加索引优化。</li>
+</ul>
+<hr>
+<h4 id="示例-2：使用索引"><a href="#示例-2：使用索引" class="headerlink" title="示例 2：使用索引"></a><strong>示例 2：使用索引</strong></h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN <span class="keyword">SELECT</span> name <span class="keyword">FROM</span> employees <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p><strong>输出</strong>：</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+----+-------------+-----------+------------+-------+---------------+---------+---------+-------+------+----------+-------------+</span><br><span class="line">| id | select_type | table     | partitions | <span class="class"><span class="keyword">type</span>  | possible_keys | key     | key_len | ref   | rows | filtered | <span class="type">Extra</span>       |</span></span><br><span class="line">+----+-------------+-----------+------------+-------+---------------+---------+---------+-------+------+----------+-------------+</span><br><span class="line">| <span class="number">1</span>  | <span class="type">SIMPLE</span>      | employees | <span class="type">NULL</span>       | const | <span class="type">PRIMARY</span>       | <span class="type">PRIMARY</span> | <span class="number">4</span>       | const | <span class="number">1</span>    | <span class="number">100.00</span>   | <span class="type">Using</span> index |</span><br><span class="line">+----+-------------+-----------+------------+-------+---------------+---------+---------+-------+------+----------+-------------+</span><br></pre></td></tr></table></figure>
+<p><strong>分析</strong>：</p>
+<ul>
+<li><code>type</code> 为 <code>const</code>（主键查询），<code>Using index</code> 表示使用了覆盖索引。</li>
+</ul>
+<hr>
+<h4 id="示例-3：复杂查询（JOIN）"><a href="#示例-3：复杂查询（JOIN）" class="headerlink" title="示例 3：复杂查询（JOIN）"></a><strong>示例 3：复杂查询（JOIN）</strong></h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN <span class="keyword">SELECT</span> a.name, b.salary </span><br><span class="line"><span class="keyword">FROM</span> employees a </span><br><span class="line"><span class="keyword">JOIN</span> salaries b <span class="keyword">ON</span> a.id <span class="operator">=</span> b.employee_id </span><br><span class="line"><span class="keyword">WHERE</span> a.department <span class="operator">=</span> <span class="string">&#x27;IT&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p><strong>输出</strong>：</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+----+-------------+-------+------------+------+---------------+---------+---------+----------------+------+----------+-------------+</span><br><span class="line">|<span class="string"> id </span>|<span class="string"> select_type </span>|<span class="string"> table </span>|<span class="string"> partitions </span>|<span class="string"> type </span>|<span class="string"> possible_keys </span>|<span class="string"> key     </span>|<span class="string"> key_len </span>|<span class="string"> ref            </span>|<span class="string"> rows </span>|<span class="string"> filtered </span>|<span class="string"> Extra       </span>|</span><br><span class="line">+----+-------------+-------+------------+------+---------------+---------+---------+----------------+------+----------+-------------+</span><br><span class="line">|<span class="string"> 1  </span>|<span class="string"> SIMPLE      </span>|<span class="string"> a     </span>|<span class="string"> NULL       </span>|<span class="string"> ref  </span>|<span class="string"> idx_dept      </span>|<span class="string"> idx_dept</span>|<span class="string"> 768     </span>|<span class="string"> const          </span>|<span class="string"> 100  </span>|<span class="string"> 100.00   </span>|<span class="string"> Using where </span>|</span><br><span class="line">|<span class="string"> 1  </span>|<span class="string"> SIMPLE      </span>|<span class="string"> b     </span>|<span class="string"> NULL       </span>|<span class="string"> ref  </span>|<span class="string"> emp_id        </span>|<span class="string"> emp_id  </span>|<span class="string"> 4       </span>|<span class="string"> test.a.id      </span>|<span class="string"> 10   </span>|<span class="string"> 100.00   </span>|<span class="string"> NULL        </span>|</span><br><span class="line">+----+-------------+-------+------------+------+---------------+---------+---------+----------------+------+----------+-------------+</span><br></pre></td></tr></table></figure>
+<p><strong>分析</strong>：</p>
+<ul>
+<li><code>employees</code> 表通过 <code>idx_dept</code> 索引筛选出 100 行。</li>
+<li><code>salaries</code> 表通过 <code>emp_id</code> 索引与 <code>employees</code> 表关联。</li>
+</ul>
+<hr>
+<h3 id="四、优化建议"><a href="#四、优化建议" class="headerlink" title="四、优化建议"></a><strong>四、优化建议</strong></h3><ol>
+<li><p><strong>避免全表扫描（ALL）</strong>  </p>
+<ul>
+<li>为 WHERE、JOIN、ORDER BY 条件添加合适的索引。</li>
+<li>示例：<code>ALTER TABLE employees ADD INDEX idx_dept (department);</code></li>
+</ul>
+</li>
+<li><p><strong>减少回表（Using index）</strong>  </p>
+<ul>
+<li>使用覆盖索引（查询字段全部包含在索引中）。</li>
+</ul>
+</li>
+<li><p><strong>优化临时表和文件排序</strong>  </p>
+<ul>
+<li>减少复杂查询中的 <code>DISTINCT</code>、<code>GROUP BY</code>、<code>ORDER BY</code>。</li>
+<li>确保排序字段有索引。</li>
+</ul>
+</li>
+<li><p><strong>关联查询优化</strong>  </p>
+<ul>
+<li>小表驱动大表。</li>
+<li>确保关联字段有索引。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="五、常见误区"><a href="#五、常见误区" class="headerlink" title="五、常见误区"></a><strong>五、常见误区</strong></h3><ul>
+<li><p><strong>索引越多越好？</strong><br>错误。过多的索引会降低写入性能，需权衡查询与写入需求。</p>
+</li>
+<li><p><strong>EXPLAIN 的 rows 是准确的？</strong><br>不准确。它是 MySQL 的预估值，实际行数可能不同。</p>
+</li>
+<li><p><strong>type &#x3D; range 一定比 ref 差？</strong><br>不一定。范围查询可能更高效，需结合具体场景。</p>
+</li>
+</ul>
+<hr>
+<h3 id="六、进阶用法"><a href="#六、进阶用法" class="headerlink" title="六、进阶用法"></a><strong>六、进阶用法</strong></h3><ol>
+<li><p><strong>分析 UPDATE&#x2F;DELETE</strong>  </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN <span class="keyword">UPDATE</span> employees <span class="keyword">SET</span> salary <span class="operator">=</span> <span class="number">10000</span> <span class="keyword">WHERE</span> department <span class="operator">=</span> <span class="string">&#x27;IT&#x27;</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>查看分区信息</strong>  </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN PARTITIONS <span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> partitioned_table;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>结合 SHOW WARNINGS</strong>  </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN EXTENDED <span class="keyword">SELECT</span> ...;</span><br><span class="line"><span class="keyword">SHOW</span> WARNINGS;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h3><p>通过 <code>EXPLAIN</code>，可以快速定位查询性能瓶颈，优化索引和 SQL 逻辑。建议在开发过程中对复杂查询进行常态化分析，避免生产环境出现慢查询。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://daiyafeigithub.github.io/simonzzz">Simon</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://daiyafeigithub.github.io/simonzzz/2025/04/19/skills/mysql/explain/">https://daiyafeigithub.github.io/simonzzz/2025/04/19/skills/mysql/explain/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://daiyafeigithub.github.io/simonzzz" target="_blank">风</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/simonzzz/tags/mysql/">mysql</a></div><div class="post-share"><div class="social-share" data-image="/simonzzz/img/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/simonzzz/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/simonzzz/img/wechat.jpg" alt="微信打赏"/></a><div class="post-qr-code-desc">微信打赏</div></li><li class="reward-item"><a href="/simonzzz/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/simonzzz/img/alipay.jpg" alt="支付宝打赏"/></a><div class="post-qr-code-desc">支付宝打赏</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/simonzzz/2025/04/19/ask/threadArrange/" title="编程题：多线程任务处理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">编程题：多线程任务处理</div></div><div class="info-2"><div class="info-item-1"> 题目 1: 批量任务处理系统背景描述某电商平台需要定期生成一份销售报告。生成报告的过程分为以下几个步骤：  系统会从数据库中提取一批订单数据（假设共有 5 笔订单）。 每笔订单需要单独计算其销售额和利润（这些计算过程可以并行进行，每笔订单的计算时间随机，范围为 1~3 秒）。 只有当所有订单的计算完成后，系统才能汇总结果并生成最终的销售报告。  具体要求 设计一个程序模拟上述流程，确保所有订单的计算任务都能正确完成。 在所有订单计算完成后，系统应打印一条消息，例如 &quot;Sales report generated successfully!&quot;。 确保程序能够高效运行，避免资源浪费或任务遗漏。  提示 考虑如何让主程序知道所有订单的计算任务已经完成。 需要注意并发环境下的数据一致性问题。  示例输出1234567891011Processing order 1...Processing order 2...Processing order 3...Processing order 4...Processing order 5...Order 1...</div></div></div></a><a class="pagination-related" href="/simonzzz/2025/04/19/skills/mysql/sqlBeBetterInMysql/" title="Mysql如何优化慢SQL"><img class="cover" src="/simonzzz/2025/04/19/skills/mysql/sqlBeBetterInMysql/source%5Cimgs%5Cinterview%5Cca697cf7-e34e-4fc8-a102-2858b33981a2.png" onerror="onerror=null;src='/simonzzz/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Mysql如何优化慢SQL</div></div><div class="info-2"><div class="info-item-1">在 MySQL 中，针对慢 SQL 的优化是一个常见的性能调优任务。慢 SQL 通常是由于查询效率低下、索引缺失、数据量过大或数据库设计不合理等原因引起的。以下是优化慢 SQL 的详细步骤和方法：  1. 定位慢 SQL(1) 开启慢查询日志MySQL 提供了慢查询日志功能，可以记录执行时间超过指定阈值的 SQL 语句。  配置参数：1234567891011-- 查看当前慢查询日志是否开启SHOW VARIABLES LIKE &#x27;slow_query_log&#x27;;-- 设置慢查询日志路径SET GLOBAL slow_query_log_file = &#x27;/path/to/slow_query.log&#x27;;-- 设置慢查询时间阈值（单位：秒）SET GLOBAL long_query_time = 1;-- 开启慢查询日志SET GLOBAL slow_query_log = &#x27;ON&#x27;; 慢查询日志会记录执行时间超过 long_query_time 的 SQL。  (2) 使用 EXPLAIN 分析查询计划通过...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="lv-container" data-id="city" data-uid="livere-uid"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/simonzzz/img/avatar.jpg" onerror="this.onerror=null;this.src='/simonzzz/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Simon</div><div class="author-info-description">用一种很新的方式去思考世界</div><div class="site-data"><a href="/simonzzz/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/simonzzz/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/simonzzz/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/daiyafeigithub"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/daiyafeigithub/simonzzz" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:simon.dyf@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">一、基础语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E8%BE%93%E5%87%BA%E5%AD%97%E6%AE%B5%E8%AF%A6%E8%A7%A3"><span class="toc-number">2.</span> <span class="toc-text">二、输出字段详解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-id"><span class="toc-number">2.1.</span> <span class="toc-text">1. id</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-select-type"><span class="toc-number">2.2.</span> <span class="toc-text">2. select_type</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-table"><span class="toc-number">2.3.</span> <span class="toc-text">3. table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-partitions"><span class="toc-number">2.4.</span> <span class="toc-text">4. partitions</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-type"><span class="toc-number">2.5.</span> <span class="toc-text">5. type</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-possible-keys"><span class="toc-number">2.6.</span> <span class="toc-text">6. possible_keys</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-key"><span class="toc-number">2.7.</span> <span class="toc-text">7. key</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-key-len"><span class="toc-number">2.8.</span> <span class="toc-text">8. key_len</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-ref"><span class="toc-number">2.9.</span> <span class="toc-text">9. ref</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-rows"><span class="toc-number">2.10.</span> <span class="toc-text">10. rows</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-filtered"><span class="toc-number">2.11.</span> <span class="toc-text">11. filtered</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-Extra"><span class="toc-number">2.12.</span> <span class="toc-text">12. Extra</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E7%A4%BA%E4%BE%8B%E5%88%86%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text">三、示例分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-1%EF%BC%9A%E5%85%A8%E8%A1%A8%E6%89%AB%E6%8F%8F"><span class="toc-number">3.1.</span> <span class="toc-text">示例 1：全表扫描</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-2%EF%BC%9A%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95"><span class="toc-number">3.2.</span> <span class="toc-text">示例 2：使用索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-3%EF%BC%9A%E5%A4%8D%E6%9D%82%E6%9F%A5%E8%AF%A2%EF%BC%88JOIN%EF%BC%89"><span class="toc-number">3.3.</span> <span class="toc-text">示例 3：复杂查询（JOIN）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E4%BC%98%E5%8C%96%E5%BB%BA%E8%AE%AE"><span class="toc-number">4.</span> <span class="toc-text">四、优化建议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E5%B8%B8%E8%A7%81%E8%AF%AF%E5%8C%BA"><span class="toc-number">5.</span> <span class="toc-text">五、常见误区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E8%BF%9B%E9%98%B6%E7%94%A8%E6%B3%95"><span class="toc-number">6.</span> <span class="toc-text">六、进阶用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/simonzzz/2025/04/19/countdownlatchAndCycleBarrier/" title="Java 并发工具：CountDownLatch 与 CyclicBarrier 详解">Java 并发工具：CountDownLatch 与 CyclicBarrier 详解</a><time datetime="2025-04-19T04:14:28.180Z" title="发表于 2025-04-19 12:14:28">2025-04-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/simonzzz/2025/04/19/howToCreateHexoAtGithubPages/" title="怎么在github pages部署自己的hexo项目">怎么在github pages部署自己的hexo项目</a><time datetime="2025-04-19T04:14:28.180Z" title="发表于 2025-04-19 12:14:28">2025-04-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/simonzzz/2025/04/19/howtousehttps/" title="如何在vue+springboot项目中使用https">如何在vue+springboot项目中使用https</a><time datetime="2025-04-19T04:14:28.180Z" title="发表于 2025-04-19 12:14:28">2025-04-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/simonzzz/2025/04/19/interview/" title="面试官问：请问在你的项目中如何使用的线程池">面试官问：请问在你的项目中如何使用的线程池</a><time datetime="2025-04-19T04:14:28.180Z" title="发表于 2025-04-19 12:14:28">2025-04-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/simonzzz/2025/04/19/interview2/" title="多线程开发">多线程开发</a><time datetime="2025-04-19T04:14:28.180Z" title="发表于 2025-04-19 12:14:28">2025-04-19</time></div></div></div></div></div></div></main><footer id="footer" style="background: 1E1E1E;"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2019 - 2025 By Simon</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/simonzzz/js/utils.js"></script><script src="/simonzzz/js/main.js"></script><script src="/simonzzz/js/tw_cn.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+
+  const loadLivere = (el, path) => {
+    window.livereOptions = {
+      refer: path || location.pathname
+    }
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyLivere = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    if (typeof LivereTower === 'object') window.LivereTower.init()
+    else {
+      (function(d, s) {
+          var j, e = d.getElementsByTagName(s)[0];
+          if (typeof LivereTower === 'function') { return; }
+          j = d.createElement(s);
+          j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+          j.async = true;
+          e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    }
+  }
+
+  if (isShuoshuo) {
+    'Livere' === 'Livere'
+      ? window.shuoshuoComment = { loadComment: loadLivere }
+      : window.loadOtherComment = loadLivere
+    return
+  }
+
+  if ('Livere' === 'Livere' || !false) {
+    if (false) btf.loadComment(document.getElementById('lv-container'), loadLivere)
+    else loadLivere()
+  } else {
+    window.loadOtherComment = loadLivere
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="这里可以搜索内容哦😊" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/simonzzz/js/search/local-search.js"></script></div></div></body></html>
