@@ -1,0 +1,226 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>风</title><meta name="author" content="Simon"><meta name="copyright" content="Simon"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="用一种很新的方式去思考世界">
+<meta property="og:type" content="website">
+<meta property="og:title" content="风">
+<meta property="og:url" content="https://daiyafeigithub.github.io/simonzzz/index.html">
+<meta property="og:site_name" content="风">
+<meta property="og:description" content="用一种很新的方式去思考世界">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://daiyafeigithub.github.io/simonzzz/img/avatar.jpg">
+<meta property="article:author" content="Simon">
+<meta property="article:tag" content="风,博客,技术,生活">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://daiyafeigithub.github.io/simonzzz/img/avatar.jpg"><link rel="shortcut icon" href="/simonzzz/img/seek.png"><link rel="canonical" href="https://daiyafeigithub.github.io/simonzzz/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/simonzzz/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/simonzzz/',
+  algolia: undefined,
+  localSearch: {"path":"/simonzzz/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":800,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '风',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'home'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/simonzzz/img/avatar.jpg" onerror="this.onerror=null;this.src='/simonzzz/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/simonzzz/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/simonzzz/tags/"><div class="headline">标签</div><div class="length-num">17</div></a><a href="/simonzzz/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/simonzzz/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page fixed" id="page-header" style="background-image: url(/simonzzz/img/header.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/simonzzz/"></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/simonzzz/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">风</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/daiyafeigithub/simonzzz" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:simon.dyf@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/simonzzz/2025/04/22/skills/point/rabbitmq/" title="RabbitMQ">RabbitMQ</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-04-22T14:54:22.000Z" title="发表于 2025-04-22 22:54:22">2025-04-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/simonzzz/categories/%E6%8A%80%E6%9C%AF/">技术</a></span></div><div class="content">一、RabbitMQ 核心概念与架构RabbitMQ 是基于 AMQP 0-9-1 协议的消息中间件，其核心设计目标是实现高可靠、可扩展的异步通信。以下是关键组件的详细说明：  AMQP 协议：  消息模型：生产者（Producer）将消息发送到交换机（Exchange），交换机根据路由规则（Routing Key）将消息分发到队列（Queue），消费者（Consumer）从队列中消费消息。 协议特性：支持消息确认（Ack）、持久化、事务等机制，确保消息可靠传输。   核心组件：  Virtual Host：逻辑隔离单元，允许在同一 RabbitMQ 实例中创建多个虚拟环境。 Connection &amp; Channel： Connection：TCP 连接，资源消耗较大。 Channel：轻量级的虚拟连接，复用 Connection，减少系统开销。   Exchange 类型： Direct：精确匹配 Routing Key。 Fanout：广播消息到所有绑定队列。 Topic：支持通配符（* 匹配一个单词，#...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/simonzzz/2025/04/22/ask/threadArrange/" title="编程题：多线程任务处理">编程题：多线程任务处理</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-04-22T14:50:18.000Z" title="发表于 2025-04-22 22:50:18">2025-04-22</time></span></div><div class="content"> 题目 1: 批量任务处理系统背景描述某电商平台需要定期生成一份销售报告。生成报告的过程分为以下几个步骤：  系统会从数据库中提取一批订单数据（假设共有 5 笔订单）。 每笔订单需要单独计算其销售额和利润（这些计算过程可以并行进行，每笔订单的计算时间随机，范围为 1~3 秒）。 只有当所有订单的计算完成后，系统才能汇总结果并生成最终的销售报告。  具体要求 设计一个程序模拟上述流程，确保所有订单的计算任务都能正确完成。 在所有订单计算完成后，系统应打印一条消息，例如 &quot;Sales report generated successfully!&quot;。 确保程序能够高效运行，避免资源浪费或任务遗漏。  提示 考虑如何让主程序知道所有订单的计算任务已经完成。 需要注意并发环境下的数据一致性问题。  示例输出1234567891011Processing order 1...Processing order 2...Processing order 3...Processing order 4...Processing order 5...Order 1...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/simonzzz/2025/04/22/skills/interview/interview/" title="面试官问：请问在你的项目中如何使用的线程池">面试官问：请问在你的项目中如何使用的线程池</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-04-22T14:39:37.000Z" title="发表于 2025-04-22 22:39:37">2025-04-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/simonzzz/categories/%E6%8A%80%E6%9C%AF/">技术</a></span></div><div class="content">业务场景：金融交易处理系统场景描述假设我们正在开发一个金融交易处理系统，系统需要处理大量的交易请求，例如股票交易、转账、支付等。每个交易请求需要执行一些短生命周期的任务，例如验证交易信息、计算交易金额、更新账户余额、通知用户等。由于交易请求的数量较大且每个任务的执行时间较短，使用 CachedThreadPool 可以有效地管理和复用线程，减少线程创建和销毁的开销，提高系统的性能和响应速度。 此外，为了确保每个交易请求的线程安全性和数据隔离性，我们将使用 ThreadLocal 来存储每个线程的上下文信息。为了同步多个任务的完成，我们将使用 CountDownLatch...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/simonzzz/2025/04/20/AI/howtomakeayewuxian/" title="利用大模型实现公司业务的自动化">利用大模型实现公司业务的自动化</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-04-20T14:43:00.000Z" title="发表于 2025-04-20 22:43:00">2025-04-20</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/simonzzz/categories/%E6%8A%80%E6%9C%AF/">技术</a></span></div><div class="content">一、技术栈选择1. 基础技术框架 大模型平台： 开源模型：LLaMA、Falcon、Stable Diffusion（根据业务类型选择）。 闭源模型：阿里云通义千问、百度文心一言、OpenAI GPT 系列（通过 API 调用）。   开发工具： 模型训练：Hugging Face Transformers、PyTorch、TensorFlow。 部署工具：FastAPI（API 服务）、Docker（容器化）、Kubernetes（集群管理）。 低代码平台：阿里云百炼、百度AI Studio（适合快速开发）。    2. 数据相关技术 数据预处理：Pandas（数据清洗）、NLTK&#x2F;Spacy（文本处理）、OpenCV（图像处理）。 数据标注工具：Label Studio、CVAT（用于标注训练数据）。 数据存储：MySQL&#x2F;MongoDB（结构化数据）、Elasticsearch（日志&#x2F;非结构化数据）。  3....</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/simonzzz/2025/04/20/havefun/%E4%BA%91%E5%8D%97%E6%97%85%E6%B8%B8%E6%94%BB%E7%95%A5/" title="云南旅游攻略">云南旅游攻略</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-04-20T14:43:00.000Z" title="发表于 2025-04-20 22:43:00">2025-04-20</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/simonzzz/categories/%E6%97%85%E6%B8%B8/">旅游</a></span></div><div class="content"> 第一天：城市人文与紫色浪漫上午：蓝花楹大道（教场中路） 亮点：正值蓝花楹盛花期，教场中路约2公里的紫色花廊如瀑布倾泻，是昆明四月最浪漫的景观。 拍摄建议：清晨7点前到达，避开人潮，利用逆光拍摄花瓣的透明质感；可乘坐赏花专线巴士（25元&#x2F;人）俯瞰全景。 周边活动：沿途涂鸦墙和特色市集可逛，推荐尝试蓝花楹主题雪糕。    中午：昆明老街 &amp; 文林街 美食推荐： 过桥米线：老字号“建新园”或“福华园”，体验滚汤现烫的仪式感。 小吃：官渡粑粑（眼镜粑粑店）、小锅米线（文林街小摊）。   文化体验：探访“东方书店”（1926年创办），二楼可边喝咖啡边赏街景。  下午：翠湖公园 &amp;...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/simonzzz/2025/04/20/skills/interview/plan/" title="高级Java开发必备技能点和复习计划">高级Java开发必备技能点和复习计划</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-04-20T14:43:00.000Z" title="发表于 2025-04-20 22:43:00">2025-04-20</time></span></div><div class="content"> 一、核心知识点（按重要性排序）1. Java核心 集合框架（HashMap、ConcurrentHashMap、ArrayList、LinkedList、TreeMap、HashSet源码分析） 多线程与并发（线程池、synchronized、volatile、CAS、AQS、ReentrantLock、ReadWriteLock） JVM（内存模型、GC算法、类加载机制、JVM调优、内存泄漏排查） IO&#x2F;NIO（BIO&#x2F;NIO&#x2F;AIO区别、Selector、Buffer、Channel） 反射、注解、动态代理  2. 并发编程 线程池（ThreadPoolExecutor参数、拒绝策略、Callable&#x2F;Future） 并发工具类（CountDownLatch、CyclicBarrier、Semaphore、Exchanger） 原子类（AtomicInteger、AtomicReference） ThreadLocal（内存泄漏问题） 死锁检测与避免  3....</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/simonzzz/2025/04/20/skills/point/howToCreateHexoAtGithubPages/" title="怎么在github pages部署自己的hexo项目">怎么在github pages部署自己的hexo项目</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-04-20T14:43:00.000Z" title="发表于 2025-04-20 22:43:00">2025-04-20</time></span></div><div class="content">在 GitHub Pages 上部署 Hexo 项目是一个常见的需求，Hexo 是一个基于 Node.js 的静态博客生成器，而 GitHub Pages 是一个免费的静态网站托管服务。以下是详细的步骤，帮助你完成 Hexo 项目的部署。  1. 准备工作确保你已经完成以下准备工作：  安装 Node.js 和 npm。 安装 Git。 创建一个 GitHub 仓库（如果还没有）。   2. 安装 Hexo如果你还没有安装 Hexo，可以通过以下命令安装： 1npm install -g hexo-cli   3. 初始化 Hexo 项目在本地初始化一个 Hexo 项目： 123hexo init my-blogcd my-blognpm install   my-blog 是你的项目文件夹名称，可以根据需要修改。   4. 配置 Hexo在 Hexo 项目的根目录下，编辑 _config.yml 文件，设置以下内容： 配置部署信息找到 deploy 部分，修改为以下内容： 1234deploy:  type: git  repo:...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/simonzzz/2025/04/20/skills/point/howtousehttps/" title="如何在vue+springboot项目中使用https">如何在vue+springboot项目中使用https</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-04-20T14:43:00.000Z" title="发表于 2025-04-20 22:43:00">2025-04-20</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/simonzzz/categories/%E6%8A%80%E6%9C%AF/">技术</a></span></div><div class="content">在 Vue + Spring Boot 项目中使用 HTTPS，需要分别在 Vue 前端和 Spring Boot 后端进行配置。以下是具体步骤： 1. 生成 SSL 证书首先，你需要一个 SSL 证书。可以使用自签名证书进行测试，或从受信任的证书颁发机构（CA）获取正式证书。 自签名证书生成使用 OpenSSL 生成自签名证书： 1openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes  这将生成 key.pem（私钥）和 cert.pem（证书）文件。 2. 配置 Spring Boot 使用 HTTPS将证书放入 Spring Boot 项目将生成的 key.pem 和 cert.pem 文件放入 src/main/resources 目录。 修改 application.properties在 application.properties...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/simonzzz/2025/04/20/skills/point/%E4%B8%AD%E7%BA%A7%E8%BD%AF%E8%80%83%E8%AF%81%E4%B9%A620%E5%A4%A9%E5%86%B2%E5%88%BA%E8%AE%A1%E5%88%92/" title="中级软考证书20天冲刺计划">中级软考证书20天冲刺计划</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-04-20T14:43:00.000Z" title="发表于 2025-04-20 22:43:00">2025-04-20</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/simonzzz/categories/%E8%BD%AF%E8%80%83/">软考</a></span></div><div class="content">中级软考（软件水平考试）是中国计算机技术与软件专业技术资格（水平）考试的一部分，通常包括《基础知识》和《应用技术》两部分。距离考试还有20天的时间，突击复习需要高效且有计划地进行。以下是一个详细的复习路线规划，涵盖知识点梳理、时间安排和备考建议。  一、复习目标 基础知识：掌握考试大纲中的核心知识点，熟悉选择题的常见考点。 应用技术：理解案例分析题的解题思路，能够快速定位问题并给出解决方案。 模拟练习：通过真题和模拟题训练答题速度和准确率。   二、复习规划（20天）第一阶段：基础巩固（第1-7天）目标：全面梳理考试大纲中的知识点，夯实基础。  基础知识部分    重点内容： 计算机系统知识   计算机组成原理（CPU、内存、I&#x2F;O设备等） 操作系统基础（进程管理、存储管理、文件系统） 数据库基础（关系模型、SQL语言、事务管理）   网络基础   网络协议（TCP&#x2F;IP、HTTP、DNS等） 网络架构（OSI七层模型、IP地址分类）   软件工程   软件生命周期（需求分析、设计、编码、测试、维护） 常见开发模型（瀑布模型、敏捷开发）   信息安全 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/simonzzz/2025/04/15/AI/wechatrebot/" title="如何利用PC微信客户端实现微信机器人">如何利用PC微信客户端实现微信机器人</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-04-15T07:44:17.000Z" title="发表于 2025-04-15 15:44:17">2025-04-15</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/simonzzz/categories/%E6%8A%80%E6%9C%AF/">技术</a></span></div><div class="content">微信机器人搭建指南本文将详细介绍如何使用PC微信客户端搭建一个功能强大的微信机器人。通过本教程，您可以实现自动回复、消息转发等实用功能。 1. 环境准备1.1 安装PyCharm首先需要安装Python开发环境PyCharm：  下载地址：PyCharm官方下载 选择Community（社区版）即可满足需求   1.2 获取项目代码我们使用WeChatRobot项目作为基础：  GitHub地址：https://github.com/lich0821/WeChatRobot.git 国内镜像（推荐）：https://gitee.com/lch0821/WeChatRobot.git   2. 项目配置2.1 配置Python解释器 打开PyCharm 进入设置（Settings） 选择项目解释器（Project Interpreter） 添加新的Python解释器   2.2 安装依赖包在项目根目录下找到requirements.txt文件，使用以下命令安装依赖： 1pip install -r requirements.txt  3. 下载必要组件3.1...</div></div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/simonzzz/page/2/#content-inner">2</a><a class="extend next" rel="next" href="/simonzzz/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/simonzzz/img/avatar.jpg" onerror="this.onerror=null;this.src='/simonzzz/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Simon</div><div class="author-info-description">用一种很新的方式去思考世界</div><div class="site-data"><a href="/simonzzz/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/simonzzz/tags/"><div class="headline">标签</div><div class="length-num">17</div></a><a href="/simonzzz/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/daiyafeigithub"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/daiyafeigithub/simonzzz" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:simon.dyf@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/simonzzz/2025/04/22/skills/point/rabbitmq/" title="RabbitMQ">RabbitMQ</a><time datetime="2025-04-22T14:54:22.000Z" title="发表于 2025-04-22 22:54:22">2025-04-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/simonzzz/2025/04/22/ask/threadArrange/" title="编程题：多线程任务处理">编程题：多线程任务处理</a><time datetime="2025-04-22T14:50:18.000Z" title="发表于 2025-04-22 22:50:18">2025-04-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/simonzzz/2025/04/22/skills/interview/interview/" title="面试官问：请问在你的项目中如何使用的线程池">面试官问：请问在你的项目中如何使用的线程池</a><time datetime="2025-04-22T14:39:37.000Z" title="发表于 2025-04-22 22:39:37">2025-04-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/simonzzz/2025/04/20/AI/howtomakeayewuxian/" title="利用大模型实现公司业务的自动化">利用大模型实现公司业务的自动化</a><time datetime="2025-04-20T14:43:00.000Z" title="发表于 2025-04-20 22:43:00">2025-04-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/simonzzz/2025/04/20/havefun/%E4%BA%91%E5%8D%97%E6%97%85%E6%B8%B8%E6%94%BB%E7%95%A5/" title="云南旅游攻略">云南旅游攻略</a><time datetime="2025-04-20T14:43:00.000Z" title="发表于 2025-04-20 22:43:00">2025-04-20</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/simonzzz/categories/%E6%8A%80%E6%9C%AF/"><span class="card-category-list-name">技术</span><span class="card-category-list-count">12</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/simonzzz/categories/%E6%97%85%E6%B8%B8/"><span class="card-category-list-name">旅游</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/simonzzz/categories/%E8%BD%AF%E8%80%83/"><span class="card-category-list-name">软考</span><span class="card-category-list-count">1</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/simonzzz/tags/%E6%95%99%E7%A8%8B/" style="font-size: 1.23em; color: #999ea6">教程</a> <a href="/simonzzz/tags/Java/" style="font-size: 1.37em; color: #99a4b2">Java</a> <a href="/simonzzz/tags/deepseek/" style="font-size: 1.1em; color: #999">deepseek</a> <a href="/simonzzz/tags/AI/" style="font-size: 1.23em; color: #999ea6">AI</a> <a href="/simonzzz/tags/MySql/" style="font-size: 1.1em; color: #999">MySql</a> <a href="/simonzzz/tags/%E6%97%85%E6%B8%B8/" style="font-size: 1.1em; color: #999">旅游</a> <a href="/simonzzz/tags/Python/" style="font-size: 1.23em; color: #999ea6">Python</a> <a href="/simonzzz/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 1.5em; color: #99a9bf">多线程</a> <a href="/simonzzz/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" style="font-size: 1.37em; color: #99a4b2">线程池</a> <a href="/simonzzz/tags/cycleBarrier/" style="font-size: 1.1em; color: #999">cycleBarrier</a> <a href="/simonzzz/tags/%E4%B8%AD%E7%BA%A7%E8%BD%AF%E8%80%83/" style="font-size: 1.1em; color: #999">中级软考</a> <a href="/simonzzz/tags/RabbitMQ/" style="font-size: 1.1em; color: #999">RabbitMQ</a> <a href="/simonzzz/tags/%E8%BD%AF%E8%80%83/" style="font-size: 1.1em; color: #999">软考</a> <a href="/simonzzz/tags/%E6%8A%80%E6%9C%AF/" style="font-size: 1.1em; color: #999">技术</a> <a href="/simonzzz/tags/countDownLatch/" style="font-size: 1.1em; color: #999">countDownLatch</a> <a href="/simonzzz/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 1.23em; color: #999ea6">面试</a> <a href="/simonzzz/tags/mysql/" style="font-size: 1.1em; color: #999">mysql</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
+      
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/simonzzz/archives/2025/04/">
+            <span class="card-archive-list-date">
+              四月 2025
+            </span>
+            <span class="card-archive-list-count">16</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/simonzzz/archives/2025/01/">
+            <span class="card-archive-list-date">
+              一月 2025
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">17</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-04-22T14:56:48.965Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer" style="background: 0E0D0C;"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2025 By Simon</span></div><div class="footer_custom_text">已经到最底部啦，请点击右侧箭头回去哦</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/simonzzz/js/utils.js"></script><script src="/simonzzz/js/main.js"></script><script src="/simonzzz/js/tw_cn.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+  init: str => {
+    window.typed = new Typed('#subtitle', Object.assign({
+      strings: str,
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50,
+    }, {"loop":true,"showCursor":true,"startDelay":300,"backDelay":1000,"typeSpeed":150,"backSpeed":100}))
+  },
+  run: subtitleType => {
+    if (true) {
+      if (typeof Typed === 'function') {
+        subtitleType()
+      } else {
+        btf.getScript('https://cdn.jsdelivr.net/npm/typed.js/dist/typed.umd.min.js').then(subtitleType)
+      }
+    } else {
+      subtitleType()
+    }
+  },
+  processSubtitle: (content, extraContents = []) => {
+    if (true) {
+      const sub = ["认清生活的真相，并仍然热爱它"].slice()
+
+      if (extraContents.length > 0) {
+        sub.unshift(...extraContents)
+      }
+
+      if (typeof content === 'string') {
+        sub.unshift(content)
+      } else if (Array.isArray(content)) {
+        sub.unshift(...content)
+      }
+
+      sub.length > 0 && typedJSFn.init(sub)
+    } else {
+      document.getElementById('subtitle').textContent = typeof content === 'string' ? content :
+        (Array.isArray(content) && content.length > 0 ? content[0] : '')
+    }
+  }
+}
+btf.addGlobalFn('pjaxSendOnce', () => { typed.destroy() }, 'typedDestroy')
+</script><script>function subtitleType () {
+  typedJSFn.processSubtitle(["认清生活的真相，并仍然热爱它"])
+}
+typedJSFn.run(subtitleType)</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="这里可以搜索内容哦😊" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/simonzzz/js/search/local-search.js"></script></div></div></body></html>

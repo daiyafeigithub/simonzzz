@@ -1,0 +1,137 @@
+/* 导航栏整体样式 */
+#nav {
+    padding: 0 20px;
+}
+
+/* 主菜单容器样式 */
+.menus_items {
+    display: flex;
+    align-items: center;
+}
+
+/* 主菜单项样式 */
+.menus_items .menus_item {
+    position: relative;
+    display: inline-block;
+    margin: 0 8px;
+    padding: 0 12px;
+}
+
+/* 主菜单链接样式 */
+.menus_items .menus_item > a {
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.2em !important;
+    color: var(--light-grey) !important;
+    text-shadow: 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.15);
+    transition: all 0.3s;
+    min-width: 100px;
+    text-align: center;
+    display: block;
+}
+
+/* 子菜单容器样式 */
+.menus_item_child {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 999;
+    min-width: 180px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background: var(--card-bg);
+    border: var(--style-border);
+    animation: subMenuOpen 0.3s ease-out;
+    transform-origin: top center;
+}
+
+/* 子菜单项样式 */
+.menus_item_child li {
+    list-style: none;
+    border-bottom: 1px solid var(--light-grey);
+}
+
+.menus_item_child li:last-child {
+    border-bottom: none;
+}
+
+.menus_item_child li a {
+    display: block;
+    padding: 12px 20px;
+    color: var(--font-color) !important;
+    font-size: 1em;
+    transition: all 0.3s;
+}
+
+/* 悬停效果 */
+.menus_items .menus_item:hover > a {
+    color: var(--white) !important;
+    background: var(--button-bg);
+    border-radius: 8px;
+}
+
+.menus_item_child li a:hover {
+    background: var(--button-bg);
+    color: var(--white) !important;
+    padding-left: 25px;
+}
+
+/* 子菜单展开动画 */
+@keyframes subMenuOpen {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 暗色模式适配 */
+[data-theme="dark"] .menus_item_child {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .menus_item_child li {
+    border-bottom: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .menus_item_child li:last-child {
+    border-bottom: none;
+}
+
+/* 移动端适配 */
+@media screen and (max-width: 768px) {
+    .menus_items {
+        display: none;
+    }
+    
+    #nav .menus_items {
+        position: absolute;
+        left: 0;
+        top: 100%;
+        width: 100%;
+        background: var(--card-bg);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .menus_items .menus_item {
+        display: block;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .menus_items .menus_item > a {
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .menus_item_child {
+        position: static;
+        box-shadow: none;
+        border-radius: 0;
+        border: none;
+        background: var(--card-bg);
+    }
+} 

@@ -1,0 +1,308 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Java 并发工具：CountDownLatch 与 CyclicBarrier 详解 | 风</title><meta name="author" content="Simon"><meta name="copyright" content="Simon"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Java 并发工具：CountDownLatch 与 CyclicBarrier 详解在多线程编程中，协调多个线程的执行顺序是一个常见的需求。CountDownLatch 和 CyclicBarrier 是 Java 并发包 java.util.concurrent 提供的两个同步工具类，它们可以帮助我们轻松实现线程间的协作。本文将通过实际例子详细讲解两者的原理、区别以及适用场景。  一、Cou">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 并发工具：CountDownLatch 与 CyclicBarrier 详解">
+<meta property="og:url" content="https://daiyafeigithub.github.io/simonzzz/2025/01/08/skills/point/countdownlatchAndCycleBarrier/index.html">
+<meta property="og:site_name" content="风">
+<meta property="og:description" content="Java 并发工具：CountDownLatch 与 CyclicBarrier 详解在多线程编程中，协调多个线程的执行顺序是一个常见的需求。CountDownLatch 和 CyclicBarrier 是 Java 并发包 java.util.concurrent 提供的两个同步工具类，它们可以帮助我们轻松实现线程间的协作。本文将通过实际例子详细讲解两者的原理、区别以及适用场景。  一、Cou">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://daiyafeigithub.github.io/simonzzz/img/avatar.jpg">
+<meta property="article:published_time" content="2025-01-08T06:10:11.000Z">
+<meta property="article:modified_time" content="2025-01-08T06:10:11.000Z">
+<meta property="article:author" content="Simon">
+<meta property="article:tag" content="多线程">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="cycleBarrier">
+<meta property="article:tag" content="countDownLatch">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://daiyafeigithub.github.io/simonzzz/img/avatar.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Java 并发工具：CountDownLatch 与 CyclicBarrier 详解",
+  "url": "https://daiyafeigithub.github.io/simonzzz/2025/01/08/skills/point/countdownlatchAndCycleBarrier/",
+  "image": "https://daiyafeigithub.github.io/simonzzz/img/avatar.jpg",
+  "datePublished": "2025-01-08T06:10:11.000Z",
+  "dateModified": "2025-01-08T06:10:11.000Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Simon",
+      "url": "https://daiyafeigithub.github.io/simonzzz/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/simonzzz/img/seek.png"><link rel="canonical" href="https://daiyafeigithub.github.io/simonzzz/2025/01/08/skills/point/countdownlatchAndCycleBarrier/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/simonzzz/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/simonzzz/',
+  algolia: undefined,
+  localSearch: {"path":"/simonzzz/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":800,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Java 并发工具：CountDownLatch 与 CyclicBarrier 详解',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/simonzzz/img/avatar.jpg" onerror="this.onerror=null;this.src='/simonzzz/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/simonzzz/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/simonzzz/tags/"><div class="headline">标签</div><div class="length-num">17</div></a><a href="/simonzzz/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/simonzzz/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(/simonzzz/img/header.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/simonzzz/"></a><a class="nav-page-title" href="/simonzzz/"><span class="site-name">Java 并发工具：CountDownLatch 与 CyclicBarrier 详解</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/simonzzz/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Java 并发工具：CountDownLatch 与 CyclicBarrier 详解</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-01-08T06:10:11.000Z" title="发表于 2025-01-08 14:10:11">2025-01-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-01-08T06:10:11.000Z" title="更新于 2025-01-08 14:10:11">2025-01-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/simonzzz/categories/%E6%8A%80%E6%9C%AF/">技术</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><hr>
+<h1 id="Java-并发工具：CountDownLatch-与-CyclicBarrier-详解"><a href="#Java-并发工具：CountDownLatch-与-CyclicBarrier-详解" class="headerlink" title="Java 并发工具：CountDownLatch 与 CyclicBarrier 详解"></a><strong>Java 并发工具：CountDownLatch 与 CyclicBarrier 详解</strong></h1><p>在多线程编程中，协调多个线程的执行顺序是一个常见的需求。<code>CountDownLatch</code> 和 <code>CyclicBarrier</code> 是 Java 并发包 <code>java.util.concurrent</code> 提供的两个同步工具类，它们可以帮助我们轻松实现线程间的协作。本文将通过实际例子详细讲解两者的原理、区别以及适用场景。</p>
+<hr>
+<h2 id="一、CountDownLatch-讲解"><a href="#一、CountDownLatch-讲解" class="headerlink" title="一、CountDownLatch 讲解"></a><strong>一、CountDownLatch 讲解</strong></h2><h3 id="1-CountDownLatch-的核心概念"><a href="#1-CountDownLatch-的核心概念" class="headerlink" title="1. CountDownLatch 的核心概念"></a><strong>1. CountDownLatch 的核心概念</strong></h3><p><code>CountDownLatch</code> 是一个同步工具类，允许一个或多个线程等待其他线程完成一系列操作后继续执行。它的核心是基于一个计数器：</p>
+<ul>
+<li>初始值为指定的计数值（<code>count</code>）。</li>
+<li>每次调用 <code>countDown()</code> 方法时，计数器减 1。</li>
+<li>当计数器减到 0 时，所有等待的线程会被唤醒并继续执行。</li>
+</ul>
+<p><strong>特点</strong>：</p>
+<ul>
+<li>计数器不可重置，只能使用一次。</li>
+<li>主要用于“一个线程等待多个线程完成任务”的场景。</li>
+</ul>
+<hr>
+<h3 id="2-CountDownLatch-的典型应用场景"><a href="#2-CountDownLatch-的典型应用场景" class="headerlink" title="2. CountDownLatch 的典型应用场景"></a><strong>2. CountDownLatch 的典型应用场景</strong></h3><p>假设我们有一个物流系统，主线程需要等待三个仓库分别完成货物准备后才能启动运输任务。这种场景非常适合使用 <code>CountDownLatch</code>。</p>
+<hr>
+<h3 id="3-示例代码"><a href="#3-示例代码" class="headerlink" title="3. 示例代码"></a><strong>3. 示例代码</strong></h3><p>以下是一个完整的 <code>CountDownLatch</code> 使用示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.concurrent.CountDownLatch;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LogisticsSystemWithCountDownLatch</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 创建一个 CountDownLatch，初始计数为 3（代表 3 个仓库）</span></span><br><span class="line">        <span class="type">CountDownLatch</span> <span class="variable">latch</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CountDownLatch</span>(<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 启动 3 个仓库线程</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= <span class="number">3</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Thread</span>(<span class="keyword">new</span> <span class="title class_">WarehouseTask</span>(i, latch)).start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 主线程等待所有仓库完成任务</span></span><br><span class="line">            latch.await();</span><br><span class="line">            System.out.println(<span class="string">&quot;所有仓库货物已准备完毕，开始运输！&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            Thread.currentThread().interrupt();</span><br><span class="line">            System.out.println(<span class="string">&quot;主线程被中断: &quot;</span> + e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 仓库任务类</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">WarehouseTask</span> <span class="keyword">implements</span> <span class="title class_">Runnable</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> warehouseId;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> CountDownLatch latch;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">WarehouseTask</span><span class="params">(<span class="type">int</span> warehouseId, CountDownLatch latch)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.warehouseId = warehouseId;</span><br><span class="line">            <span class="built_in">this</span>.latch = latch;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;仓库 &quot;</span> + warehouseId + <span class="string">&quot; 正在准备货物...&quot;</span>);</span><br><span class="line">                Thread.sleep((<span class="type">long</span>) (Math.random() * <span class="number">2000</span>)); <span class="comment">// 模拟准备时间</span></span><br><span class="line">                System.out.println(<span class="string">&quot;仓库 &quot;</span> + warehouseId + <span class="string">&quot; 已完成货物准备！&quot;</span>);</span><br><span class="line">                latch.countDown(); <span class="comment">// 完成任务，计数器减 1</span></span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                Thread.currentThread().interrupt();</span><br><span class="line">                System.out.println(<span class="string">&quot;仓库 &quot;</span> + warehouseId + <span class="string">&quot; 发生异常: &quot;</span> + e.getMessage());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="4-输出示例"><a href="#4-输出示例" class="headerlink" title="4. 输出示例"></a><strong>4. 输出示例</strong></h3><p>运行上述代码后，可能得到如下输出（随机时间导致每次结果略有不同）：</p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">仓库<span class="number"> 1 </span>正在准备货物...</span><br><span class="line">仓库<span class="number"> 2 </span>正在准备货物...</span><br><span class="line">仓库<span class="number"> 3 </span>正在准备货物...</span><br><span class="line">仓库<span class="number"> 3 </span>已完成货物准备！</span><br><span class="line">仓库<span class="number"> 1 </span>已完成货物准备！</span><br><span class="line">仓库<span class="number"> 2 </span>已完成货物准备！</span><br><span class="line">所有仓库货物已准备完毕，开始运输！</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="5-核心方法"><a href="#5-核心方法" class="headerlink" title="5. 核心方法"></a><strong>5. 核心方法</strong></h3><ul>
+<li>**<code>await()</code>**：让当前线程等待，直到计数器减到 0。</li>
+<li>**<code>countDown()</code>**：将计数器减 1。</li>
+<li><strong>不可重置</strong>：一旦计数器减到 0，无法再次使用。</li>
+</ul>
+<hr>
+<h2 id="二、CyclicBarrier-讲解"><a href="#二、CyclicBarrier-讲解" class="headerlink" title="二、CyclicBarrier 讲解"></a><strong>二、CyclicBarrier 讲解</strong></h2><h3 id="1-CyclicBarrier-的核心概念"><a href="#1-CyclicBarrier-的核心概念" class="headerlink" title="1. CyclicBarrier 的核心概念"></a><strong>1. CyclicBarrier 的核心概念</strong></h3><p><code>CyclicBarrier</code> 是一个同步工具类，允许多个线程相互等待，直到所有线程都到达某个屏障点后再继续执行。它的核心是基于一个计数器：</p>
+<ul>
+<li>初始值为参与线程的数量（<code>parties</code>）。</li>
+<li>每次调用 <code>await()</code> 方法时，计数器减 1。</li>
+<li>当计数器减到 0 时，所有等待的线程会被唤醒并继续执行。</li>
+</ul>
+<p><strong>特点</strong>：</p>
+<ul>
+<li>计数器可以重置，支持多次同步。</li>
+<li>可以设置屏障动作（Runnable），当所有线程到达屏障点时执行特定逻辑。</li>
+</ul>
+<hr>
+<h3 id="2-CyclicBarrier-的典型应用场景"><a href="#2-CyclicBarrier-的典型应用场景" class="headerlink" title="2. CyclicBarrier 的典型应用场景"></a><strong>2. CyclicBarrier 的典型应用场景</strong></h3><p>假设我们有一个物流系统，多个仓库需要同时完成货物装车后才能统一发车。这种场景非常适合使用 <code>CyclicBarrier</code>。</p>
+<hr>
+<h3 id="3-示例代码-1"><a href="#3-示例代码-1" class="headerlink" title="3. 示例代码"></a><strong>3. 示例代码</strong></h3><p>以下是一个完整的 <code>CyclicBarrier</code> 使用示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.concurrent.BrokenBarrierException;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.CyclicBarrier;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LogisticsSystemWithCyclicBarrier</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 定义仓库数量</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">WAREHOUSE_COUNT</span> <span class="operator">=</span> <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 创建一个 CyclicBarrier，指定参与线程数，并设置屏障动作</span></span><br><span class="line">        <span class="type">CyclicBarrier</span> <span class="variable">cyclicBarrier</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CyclicBarrier</span>(WAREHOUSE_COUNT, () -&gt; &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;所有仓库货物已装车，开始统一发车！&quot;</span>);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 启动每个仓库的线程</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= WAREHOUSE_COUNT; i++) &#123;</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Thread</span>(<span class="keyword">new</span> <span class="title class_">WarehouseTask</span>(i, cyclicBarrier)).start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 仓库任务类</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">WarehouseTask</span> <span class="keyword">implements</span> <span class="title class_">Runnable</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> warehouseId;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> CyclicBarrier cyclicBarrier;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">WarehouseTask</span><span class="params">(<span class="type">int</span> warehouseId, CyclicBarrier cyclicBarrier)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.warehouseId = warehouseId;</span><br><span class="line">            <span class="built_in">this</span>.cyclicBarrier = cyclicBarrier;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">// 1. 准备货物</span></span><br><span class="line">                System.out.println(<span class="string">&quot;仓库 &quot;</span> + warehouseId + <span class="string">&quot; 正在准备货物...&quot;</span>);</span><br><span class="line">                Thread.sleep((<span class="type">long</span>) (Math.random() * <span class="number">2000</span>)); <span class="comment">// 模拟准备时间</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">// 2. 装车</span></span><br><span class="line">                System.out.println(<span class="string">&quot;仓库 &quot;</span> + warehouseId + <span class="string">&quot; 正在装车...&quot;</span>);</span><br><span class="line">                Thread.sleep((<span class="type">long</span>) (Math.random() * <span class="number">2000</span>)); <span class="comment">// 模拟装车时间</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">// 到达屏障点，等待其他仓库</span></span><br><span class="line">                System.out.println(<span class="string">&quot;仓库 &quot;</span> + warehouseId + <span class="string">&quot; 已完成装车，等待其他仓库...&quot;</span>);</span><br><span class="line">                cyclicBarrier.await();</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 3. 发车（屏障动作完成后，所有线程继续执行）</span></span><br><span class="line">                System.out.println(<span class="string">&quot;仓库 &quot;</span> + warehouseId + <span class="string">&quot; 的货物已发车！&quot;</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException | BrokenBarrierException e) &#123;</span><br><span class="line">                Thread.currentThread().interrupt();</span><br><span class="line">                System.out.println(<span class="string">&quot;仓库 &quot;</span> + warehouseId + <span class="string">&quot; 发生异常: &quot;</span> + e.getMessage());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="4-输出示例-1"><a href="#4-输出示例-1" class="headerlink" title="4. 输出示例"></a><strong>4. 输出示例</strong></h3><p>运行上述代码后，可能得到如下输出：</p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">仓库<span class="number"> 1 </span>正在准备货物...</span><br><span class="line">仓库<span class="number"> 2 </span>正在准备货物...</span><br><span class="line">仓库<span class="number"> 3 </span>正在准备货物...</span><br><span class="line">仓库<span class="number"> 1 </span>正在装车...</span><br><span class="line">仓库<span class="number"> 3 </span>正在装车...</span><br><span class="line">仓库<span class="number"> 2 </span>正在装车...</span><br><span class="line">仓库<span class="number"> 1 </span>已完成装车，等待其他仓库...</span><br><span class="line">仓库<span class="number"> 2 </span>已完成装车，等待其他仓库...</span><br><span class="line">仓库<span class="number"> 3 </span>已完成装车，等待其他仓库...</span><br><span class="line">所有仓库货物已装车，开始统一发车！</span><br><span class="line">仓库<span class="number"> 1 </span>的货物已发车！</span><br><span class="line">仓库<span class="number"> 2 </span>的货物已发车！</span><br><span class="line">仓库<span class="number"> 3 </span>的货物已发车！</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="5-核心方法-1"><a href="#5-核心方法-1" class="headerlink" title="5. 核心方法"></a><strong>5. 核心方法</strong></h3><ul>
+<li>**<code>await()</code>**：让当前线程等待，直到所有线程都到达屏障点。</li>
+<li><strong>屏障动作</strong>：可以在构造函数中传入一个 <code>Runnable</code>，当所有线程到达屏障点时执行。</li>
+<li><strong>可重置</strong>：计数器可以重新设置，支持多次同步。</li>
+</ul>
+<hr>
+<h2 id="三、CountDownLatch-与-CyclicBarrier-的对比"><a href="#三、CountDownLatch-与-CyclicBarrier-的对比" class="headerlink" title="三、CountDownLatch 与 CyclicBarrier 的对比"></a><strong>三、CountDownLatch 与 CyclicBarrier 的对比</strong></h2><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>CountDownLatch</th>
+<th>CyclicBarrier</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>计数器重置</strong></td>
+<td>不可重置，只能使用一次</td>
+<td>可以重置，支持多次同步</td>
+</tr>
+<tr>
+<td><strong>线程角色</strong></td>
+<td>一个或多个线程等待其他线程完成任务</td>
+<td>多个线程相互等待，直到所有线程都到达屏障点</td>
+</tr>
+<tr>
+<td><strong>屏障动作</strong></td>
+<td>不支持</td>
+<td>支持在所有线程到达屏障点后执行一个屏障动作</td>
+</tr>
+<tr>
+<td><strong>典型应用场景</strong></td>
+<td>等待某些任务完成后才能继续执行</td>
+<td>需要多个线程协同完成任务后再继续执行</td>
+</tr>
+<tr>
+<td><strong>实现方式</strong></td>
+<td>基于 AQS（AbstractQueuedSynchronizer）实现</td>
+<td>基于 <code>ReentrantLock</code> 和 <code>Condition</code> 实现</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a><strong>四、总结</strong></h2><ul>
+<li><strong>CountDownLatch</strong> 更适合“一个线程等待多个线程完成任务”的场景，例如主线程等待子线程完成初始化、任务分配等。</li>
+<li><strong>CyclicBarrier</strong> 更适合“多个线程相互等待，直到所有线程都完成任务后再继续执行”的场景，例如多仓库协同工作、批量数据处理等。</li>
+</ul>
+<p>通过本文的讲解和示例代码，相信你已经掌握了 <code>CountDownLatch</code> 和 <code>CyclicBarrier</code> 的使用方法及其适用场景。希望这些内容能帮助你在并发编程中更加得心应手！</p>
+<hr>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://daiyafeigithub.github.io/simonzzz">Simon</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://daiyafeigithub.github.io/simonzzz/2025/01/08/skills/point/countdownlatchAndCycleBarrier/">https://daiyafeigithub.github.io/simonzzz/2025/01/08/skills/point/countdownlatchAndCycleBarrier/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://daiyafeigithub.github.io/simonzzz" target="_blank">风</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/simonzzz/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a><a class="post-meta__tags" href="/simonzzz/tags/%E6%95%99%E7%A8%8B/">教程</a><a class="post-meta__tags" href="/simonzzz/tags/cycleBarrier/">cycleBarrier</a><a class="post-meta__tags" href="/simonzzz/tags/countDownLatch/">countDownLatch</a></div><div class="post-share"><div class="social-share" data-image="/simonzzz/img/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/simonzzz/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/simonzzz/img/wechat.jpg" alt="微信打赏"/></a><div class="post-qr-code-desc">微信打赏</div></li><li class="reward-item"><a href="/simonzzz/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/simonzzz/img/alipay.jpg" alt="支付宝打赏"/></a><div class="post-qr-code-desc">支付宝打赏</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/simonzzz/2025/04/07/skills/interview/interview2/" title="多线程开发"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">多线程开发</div></div><div class="info-2"><div class="info-item-1">多线程使用123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142143144package basic.multipleThread;import java.util.concurrent.*;public class ThreadPool &#123;    private void makeThreadPool() &#123;        // 直接启动线程的方式（不推荐）       ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/simonzzz/2025/04/22/skills/interview/interview/" title="面试官问：请问在你的项目中如何使用的线程池"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-22</div><div class="info-item-2">面试官问：请问在你的项目中如何使用的线程池</div></div><div class="info-2"><div class="info-item-1">业务场景：金融交易处理系统场景描述假设我们正在开发一个金融交易处理系统，系统需要处理大量的交易请求，例如股票交易、转账、支付等。每个交易请求需要执行一些短生命周期的任务，例如验证交易信息、计算交易金额、更新账户余额、通知用户等。由于交易请求的数量较大且每个任务的执行时间较短，使用 CachedThreadPool 可以有效地管理和复用线程，减少线程创建和销毁的开销，提高系统的性能和响应速度。 此外，为了确保每个交易请求的线程安全性和数据隔离性，我们将使用 ThreadLocal 来存储每个线程的上下文信息。为了同步多个任务的完成，我们将使用 CountDownLatch...</div></div></div></a><a class="pagination-related" href="/simonzzz/2025/04/07/skills/interview/interview2/" title="多线程开发"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-07</div><div class="info-item-2">多线程开发</div></div><div class="info-2"><div class="info-item-1">多线程使用123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142143144package basic.multipleThread;import java.util.concurrent.*;public class ThreadPool &#123;    private void makeThreadPool() &#123;        // 直接启动线程的方式（不推荐）       ...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="lv-container" data-id="city" data-uid="livere-uid"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/simonzzz/img/avatar.jpg" onerror="this.onerror=null;this.src='/simonzzz/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Simon</div><div class="author-info-description">用一种很新的方式去思考世界</div><div class="site-data"><a href="/simonzzz/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/simonzzz/tags/"><div class="headline">标签</div><div class="length-num">17</div></a><a href="/simonzzz/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/daiyafeigithub"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/daiyafeigithub/simonzzz" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:simon.dyf@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java-%E5%B9%B6%E5%8F%91%E5%B7%A5%E5%85%B7%EF%BC%9ACountDownLatch-%E4%B8%8E-CyclicBarrier-%E8%AF%A6%E8%A7%A3"><span class="toc-number">1.</span> <span class="toc-text">Java 并发工具：CountDownLatch 与 CyclicBarrier 详解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81CountDownLatch-%E8%AE%B2%E8%A7%A3"><span class="toc-number">1.1.</span> <span class="toc-text">一、CountDownLatch 讲解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-CountDownLatch-%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.1.</span> <span class="toc-text">1. CountDownLatch 的核心概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-CountDownLatch-%E7%9A%84%E5%85%B8%E5%9E%8B%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.1.2.</span> <span class="toc-text">2. CountDownLatch 的典型应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="toc-number">1.1.3.</span> <span class="toc-text">3. 示例代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E8%BE%93%E5%87%BA%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.1.4.</span> <span class="toc-text">4. 输出示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%A0%B8%E5%BF%83%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.5.</span> <span class="toc-text">5. 核心方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81CyclicBarrier-%E8%AE%B2%E8%A7%A3"><span class="toc-number">1.2.</span> <span class="toc-text">二、CyclicBarrier 讲解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-CyclicBarrier-%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-number">1.2.1.</span> <span class="toc-text">1. CyclicBarrier 的核心概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-CyclicBarrier-%E7%9A%84%E5%85%B8%E5%9E%8B%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.2.2.</span> <span class="toc-text">2. CyclicBarrier 的典型应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81-1"><span class="toc-number">1.2.3.</span> <span class="toc-text">3. 示例代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E8%BE%93%E5%87%BA%E7%A4%BA%E4%BE%8B-1"><span class="toc-number">1.2.4.</span> <span class="toc-text">4. 输出示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%A0%B8%E5%BF%83%E6%96%B9%E6%B3%95-1"><span class="toc-number">1.2.5.</span> <span class="toc-text">5. 核心方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81CountDownLatch-%E4%B8%8E-CyclicBarrier-%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-number">1.3.</span> <span class="toc-text">三、CountDownLatch 与 CyclicBarrier 的对比</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-number">1.4.</span> <span class="toc-text">四、总结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/simonzzz/2025/04/22/skills/point/rabbitmq/" title="RabbitMQ">RabbitMQ</a><time datetime="2025-04-22T14:54:22.000Z" title="发表于 2025-04-22 22:54:22">2025-04-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/simonzzz/2025/04/22/ask/threadArrange/" title="编程题：多线程任务处理">编程题：多线程任务处理</a><time datetime="2025-04-22T14:50:18.000Z" title="发表于 2025-04-22 22:50:18">2025-04-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/simonzzz/2025/04/22/skills/interview/interview/" title="面试官问：请问在你的项目中如何使用的线程池">面试官问：请问在你的项目中如何使用的线程池</a><time datetime="2025-04-22T14:39:37.000Z" title="发表于 2025-04-22 22:39:37">2025-04-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/simonzzz/2025/04/20/AI/howtomakeayewuxian/" title="利用大模型实现公司业务的自动化">利用大模型实现公司业务的自动化</a><time datetime="2025-04-20T14:43:00.000Z" title="发表于 2025-04-20 22:43:00">2025-04-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/simonzzz/2025/04/20/havefun/%E4%BA%91%E5%8D%97%E6%97%85%E6%B8%B8%E6%94%BB%E7%95%A5/" title="云南旅游攻略">云南旅游攻略</a><time datetime="2025-04-20T14:43:00.000Z" title="发表于 2025-04-20 22:43:00">2025-04-20</time></div></div></div></div></div></div></main><footer id="footer" style="background: 0E0D0C;"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2025 By Simon</span></div><div class="footer_custom_text">已经到最底部啦，请点击右侧箭头回去哦</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/simonzzz/js/utils.js"></script><script src="/simonzzz/js/main.js"></script><script src="/simonzzz/js/tw_cn.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+
+  const loadLivere = (el, path) => {
+    window.livereOptions = {
+      refer: path || location.pathname
+    }
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyLivere = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    if (typeof LivereTower === 'object') window.LivereTower.init()
+    else {
+      (function(d, s) {
+          var j, e = d.getElementsByTagName(s)[0];
+          if (typeof LivereTower === 'function') { return; }
+          j = d.createElement(s);
+          j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+          j.async = true;
+          e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    }
+  }
+
+  if (isShuoshuo) {
+    'Livere' === 'Livere'
+      ? window.shuoshuoComment = { loadComment: loadLivere }
+      : window.loadOtherComment = loadLivere
+    return
+  }
+
+  if ('Livere' === 'Livere' || !false) {
+    if (false) btf.loadComment(document.getElementById('lv-container'), loadLivere)
+    else loadLivere()
+  } else {
+    window.loadOtherComment = loadLivere
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="这里可以搜索内容哦😊" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/simonzzz/js/search/local-search.js"></script></div></div></body></html>
