@@ -1,0 +1,269 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>音乐收藏 | 风</title><meta name="author" content="Simon"><meta name="copyright" content="Simon"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="我的音乐收藏馆">
+<meta property="og:type" content="website">
+<meta property="og:title" content="音乐收藏">
+<meta property="og:url" content="https://daiyafeigithub.github.io/simonzzz/music/index.html">
+<meta property="og:site_name" content="风">
+<meta property="og:description" content="我的音乐收藏馆">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://daiyafeigithub.github.io/simonzzz/img/avatar.jpg">
+<meta property="article:published_time" content="2024-03-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-03-18T16:00:00.000Z">
+<meta property="article:author" content="Simon">
+<meta property="article:tag" content="风,博客,技术,生活">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://daiyafeigithub.github.io/simonzzz/img/avatar.jpg"><link rel="shortcut icon" href="/simonzzz/img/seek.png"><link rel="canonical" href="https://daiyafeigithub.github.io/simonzzz/music/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/simonzzz/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/simonzzz/',
+  algolia: undefined,
+  localSearch: {"path":"/simonzzz/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":800,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '音乐收藏',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'page'
+}</script><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/simonzzz/img/avatar.jpg" onerror="this.onerror=null;this.src='/simonzzz/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/simonzzz/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/simonzzz/tags/"><div class="headline">标签</div><div class="length-num">17</div></a><a href="/simonzzz/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/simonzzz/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div></div></div></div><div class="page type-music" id="body-wrap"><header class="not-top-img fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/simonzzz/"></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/simonzzz/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/simonzzz/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><h1 class="title-seo">音乐收藏</h1></header><main class="layout hide-aside" id="content-inner"><div id="page"><div class="page-title">音乐收藏</div><div class="container" id="article-container"><div class="note info flat"><p>🎵 这里收录了一些喜欢的音乐，希望你也能喜欢 ~<br>温馨提示：本站音乐外链全部来自网易云音乐，可以点击播放按钮收听</p>
+</div>
+
+<div class="music-container">
+  <!-- 全局播放器 -->
+  <meting-js
+    id="8560369104"
+    server="netease"
+    type="playlist"
+    fixed="true"
+    mini="false"
+    autoplay="false"
+    theme="#ad7a86"
+    loop="all"
+    order="random"
+    preload="auto"
+    volume="0.7"
+    mutex="true"
+  >
+  </meting-js>
+
+  <div class="music-list">
+    <div class="note primary flat"><h2 id="Jay-周杰伦精选集"><a href="#Jay-周杰伦精选集" class="headerlink" title="Jay 周杰伦精选集"></a>Jay 周杰伦精选集</h2><div class="songs-list">
+  <meting-js
+    id="1824025894"
+    server="netease"
+    type="song"
+    theme="#ad7a86"
+  ></meting-js>
+  <meting-js
+    id="186016"
+    server="netease"
+    type="song"
+    theme="#ad7a86"
+  ></meting-js>
+  <meting-js
+    id="185809"
+    server="netease"
+    type="song"
+    theme="#ad7a86"
+  ></meting-js>
+  <meting-js
+    id="185815"
+    server="netease"
+    type="song"
+    theme="#ad7a86"
+  ></meting-js>
+  <meting-js
+    id="185924"
+    server="netease"
+    type="song"
+    theme="#ad7a86"
+  ></meting-js>
+  <meting-js
+    id="185818"
+    server="netease"
+    type="song"
+    theme="#ad7a86"
+  ></meting-js>
+  <meting-js
+    id="418603077"
+    server="netease"
+    type="song"
+    theme="#ad7a86"
+  ></meting-js>
+  <meting-js
+    id="185786"
+    server="netease"
+    type="song"
+    theme="#ad7a86"
+  ></meting-js>
+  <meting-js
+    id="185792"
+    server="netease"
+    type="song"
+    theme="#ad7a86"
+  ></meting-js>
+  <meting-js
+    id="185827"
+    server="netease"
+    type="song"
+    theme="#ad7a86"
+  ></meting-js>
+</div></div>
+  </div>
+</div>
+
+<style>
+.music-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.music-list {
+  margin: 20px 0;
+}
+
+.songs-list {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.aplayer {
+  margin: 15px 0 !important;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+.note {
+  margin: 15px 0;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .songs-list {
+    grid-template-columns: 1fr;
+  }
+}
+</style> </div></div></main><footer id="footer" style="background: 0E0D0C;"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2025 By Simon</span></div><div class="footer_custom_text">已经到最底部啦，请点击右侧箭头回去哦</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/simonzzz/js/utils.js"></script><script src="/simonzzz/js/main.js"></script><script src="/simonzzz/js/tw_cn.js"></script><div class="js-pjax"></div><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="这里可以搜索内容哦😊" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/simonzzz/js/search/local-search.js"></script></div></div></body></html>

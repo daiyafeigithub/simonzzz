@@ -1,0 +1,36 @@
+/* 音乐页面样式 */
+.music-page {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.aplayer.aplayer-withlist.aplayer-fixed {
+  max-width: 500px;
+  margin: 0;
+  right: 20px;
+  bottom: 20px;
+}
+
+.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+  left: -66px !important;
+}
+
+.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+  left: 0 !important;
+}
+
+/* 音乐列表样式 */
+.music-list .note {
+  margin-bottom: 20px;
+}
+
+.songs-list {
+  column-count: 2;
+  column-gap: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .songs-list {
+    column-count: 1;
+  }
+} 
